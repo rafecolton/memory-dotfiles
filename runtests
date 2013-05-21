@@ -29,7 +29,7 @@ def file_list(dir)
   `find #{dir} -xdev -type f`.
     chomp.
     split("\n").
-    map{ |f| f.gsub(/#{dir}\//, '') }
+    map{ |f| f.gsub(/^#{dir}\//, '') }
 end
 
 def home_hash_list(file_list = [])
