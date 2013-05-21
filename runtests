@@ -82,8 +82,6 @@ def main(argv = [].freeze)
       ✘✘       ✘✘     ✘✘ ✘✘✘✘ ✘✘✘✘✘✘✘✘
     EOF
     $stderr.puts RESET
-
-    $servers.each { |_,server| server.dump_log }
   end
 
   exit exit_code
