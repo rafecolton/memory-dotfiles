@@ -11,12 +11,13 @@ BRIGHT_GREEN = "\033\[32;1m"
 BRIGHT_RED = "\033\[31;1m"
 DEFAULT_PROFILE_DIR = File.expand_path('./profiles/default')
 
-describe 'fake test' do
-  it 'runs a fake test' do
+describe 'using a profile and then restoring' do
+  it 'leaves the files unchanged after restoring' do
     files = file_list(DEFAULT_PROFILE_DIR)
     hash_list_before = home_hash_list(files)
 
-    # do stuff
+    # TODO: use the default profile
+    # TODO: restore from backup
 
     hash_list_after = home_hash_list(files)
 
