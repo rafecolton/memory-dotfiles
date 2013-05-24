@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+# vim:fileencoding=utf-8
+
+def main(argv = [].freeze)
+  command = argv[0]
+
+  case command
+  when 'uninstall'
+    uninstall
+  else
+    puts 'running mdf'
+  end
+  exit 0
+end
+
+def uninstall
+  puts "uninstalling mdf..."
+
+  system <<-EOB
+    if [ -f /usr/local/bin/mdf ] ; then
+      rm /usr/local/bin/mdf
+    fi
+
+    if [ -d /usr/local/var/mdf ] ; then
+      rm -rf /usr/local/var/mdf
+    fi
+  EOB
+
+  puts "...done"
+end
+
+
+if $0 == __FILE__
+  exit main(ARGV)
+end
+
+# vim:filetype=ruby

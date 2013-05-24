@@ -1,0 +1,37 @@
+#!/bin/bash
+
+function echoerr() {
+  echo -e "\033[0;31m$1\033[0m" 2>&1
+}
+
+function echosuccess() {
+  echo -e "\033[32;1m$1\033[02"
+}
+
+function ensure_git() {
+  which git > /dev/null
+
+  if [ $? -ne 0 ] ; then
+    echoerr 'Make sure git is installed and in your PATH before installing'
+    exit 42
+  fi
+}
+
+function ensure_usr_local_bin() {
+if [ ! -d '/usr/local/bin' ] ||
+  [ "$(echo "$PATH" | tr ':' '\n' | grep /usr/local/bin | head -n 1)" != '/usr/local/bin' ] ; then
+      echoerr 'Make sure /usr/local/bin exists and is in your PATH before proceeding'
+      exit 1
+  fi
+}
+
+function main() {
+  local top="$(dirname $(dirname $0))"
+  ensure_git
+  ensure_usr_local_bin
+  cp "$top/mdf" /usr/local/bin/mdf
+  mkdir -p /usr/local/mdf
+  cp -r "$top/profiles" /usr/local/var/mdf
+}
+
+main "$*"
