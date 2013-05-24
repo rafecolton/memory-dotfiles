@@ -1,22 +1,17 @@
 #!/usr/bin/env ruby
 # vim:fileencoding=utf-8
 
-def main(argv = [].freeze)
-  command = argv[0]
-
-  case command
-  when 'uninstall'
-    uninstall
-  else
-    puts 'running mdf'
+class MemoryDotfiles
+  def usage
+    puts 'This is how you use `mdf`'
   end
-  exit 0
-end
+  alias_method :'-h', :usage
+  alias_method :'--help', :usage
 
-def uninstall
-  puts "uninstalling mdf..."
+  def uninstall
+    puts "uninstalling mdf..."
 
-  system <<-EOB
+    system <<-EOB
     if [ -f /usr/local/bin/mdf ] ; then
       rm /usr/local/bin/mdf
     fi
@@ -24,14 +19,24 @@ def uninstall
     if [ -d /usr/local/var/mdf ] ; then
       rm -rf /usr/local/var/mdf
     fi
-  EOB
+    EOB
 
-  puts "...done"
+    puts "...done"
+  end
+
 end
 
-
 if $0 == __FILE__
-  exit main(ARGV)
+  command = ARGV.shift.to_sym
+
+  mdf = MemoryDotfiles.new
+  if mdf.respond_to?(command)
+    mdf.send(command)
+    exit 0
+  else
+    mdf.usage
+    exit 1
+  end
 end
 
 # vim:filetype=ruby
