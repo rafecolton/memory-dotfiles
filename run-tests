@@ -1,48 +1,8 @@
 #!/usr/bin/env ruby
 # vim:fileencoding=utf-8
 
-require 'minitest/spec'
-
-GOLD = "\033\[33;1m"
-RESET = "\033\[0m"
-GREEN = "\033\[32m"
-RED = "\033\[31m"
-BRIGHT_GREEN = "\033\[32;1m"
-BRIGHT_RED = "\033\[31;1m"
-DEFAULT_PROFILE_DIR = File.expand_path('./profiles/default')
-
-describe 'using a profile and then restoring' do
-  it 'leaves the files unchanged after restoring' do
-    files = file_list(DEFAULT_PROFILE_DIR)
-    hash_list_before = home_hash_list(files)
-
-    # TODO: use the default profile
-    # TODO: restore from backup
-
-    hash_list_after = home_hash_list(files)
-
-    hash_list_before.must_equal hash_list_after
-  end
-end
-
-def file_list(dir)
-  `find #{dir} -xdev -type f`.
-    chomp.
-    split("\n").
-    map{ |f| f.gsub(/^#{dir}\//, '') }
-end
-
-def home_hash_list(file_list = [])
-  file_list.map do |file|
-    `#{<<-EOB}`.chomp
-    if [ -f "$HOME/#{file}" ] ; then
-      md5 -q "$HOME/#{file}"
-    else
-      md5 -qs 'not present'
-    fi
-  EOB
-  end
-end
+require 'spec/spec_helper'
+Dir['spec/*.rb'].each{ |f| require f }
 
 def main(argv = [].freeze)
   MiniTest::Unit.output = Class.new do
