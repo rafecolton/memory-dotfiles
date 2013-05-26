@@ -41,7 +41,9 @@ function main() {
   ensure_mdf_bin_path
   cp "$top/mdf" "$bin_path"
   mkdir -p "$var_path"
-  cp -r "$top/profiles" "$var_path"
+  for dir in profiles lib ; do
+    cp -r "$top/$dir" "$var_path"
+  done
 }
 
 main "$*"
