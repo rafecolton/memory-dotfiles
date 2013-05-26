@@ -17,6 +17,7 @@ class MemoryDotfiles
     ENV['GIT_WORK_TREE'] = @git_work_tree = (ENV['MDF_WORK_TREE'] || ENV['HOME'])
     @command = command.to_sym
     @args = args
+    git_init unless @command == :uninstall
   end
 
   def run
