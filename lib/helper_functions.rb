@@ -15,4 +15,13 @@ module HelperFunctions
       exit $?.to_i
     end
   end
+
+  def valid_commands
+	@valid_commands ||= %w(
+	  uninstall
+	  -h
+	  --help
+	  usage
+	).map(&:to_sym)
+  end
 end

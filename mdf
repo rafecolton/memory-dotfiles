@@ -21,8 +21,8 @@ class MemoryDotfiles
   end
 
   def run
-    unless respond_to?(command)
-      $stderr.puts %Q(#{RED}Invalid command `#{command}`#{RESET})
+    unless valid_commands.include?(command) && respond_to?(command)
+      $stderr.puts %Q(#{RED}Invalid command `#{command.to_s}`#{RESET})
       usage
       exit 1
     end
