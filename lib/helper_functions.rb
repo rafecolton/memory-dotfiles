@@ -8,8 +8,8 @@ DEFAULT_PROFILE_DIR = File.expand_path('./profiles/default')
 
 module HelperFunctions
   private
-  def shell_out(command = '')
-    system "#{command}"
+  def shell_out(command = '', show_output = false)
+    system "#{command}#{show_output ? '' : ' 1>/dev/null'}"
     unless $? == 0
       $stderr.puts %Q(#{RED}Error running `#{command}`#{RESET})
       exit $?.to_i
