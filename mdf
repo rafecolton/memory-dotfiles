@@ -26,12 +26,7 @@ class MemoryDotfiles
       usage
       exit 1
     end
-    if _special_functions.include?(command)
-      usage
-      exit 0
-    end
-    git_init
-    exit send(command)
+    send(command)
   end
 
   def git_init

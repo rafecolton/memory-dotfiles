@@ -15,14 +15,4 @@ module HelperFunctions
       exit $?.to_i
     end
   end
-
-  def _special_functions
-    @special_functions ||= %w(
-      -h
-      --help
-      usage
-      uninstall
-      shell_out
-    ).map(&:to_sym)
-  end
 end
