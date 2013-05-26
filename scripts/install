@@ -18,16 +18,24 @@ function ensure_git() {
 }
 
 function ensure_mdf_bin_path() {
-if [ ! -d "${MDF_BIN_PATH:-'/usr/local/bin'}" ] ||
-  [ "$(echo "$PATH" | tr ':' '\n' | grep /usr/local/bin | head -n 1)" != '/usr/local/bin' ] ; then
-      echoerr 'Make sure /usr/local/bin exists and is in your PATH before proceeding'
-      exit 1
+  local bin_path="${MDF_BIN_PATH:-/usr/local/bin}"
+
+  if [ ! -d "$bin_path" ] ; then
+    echoerr "Make sure $bin_path exists before proceeding"
+    exit 1
+  fi
+
+  echo "$PATH" | tr ':' '\n' | grep "$bin_path" > /dev/null
+
+  if [ $? -ne 0 ] ; then
+    echoerr "Make sure $bin_path is in your PATH before proceeding"
+    exit 2
   fi
 }
 
 function main() {
-  local var_path = "${MDF_VAR_PATH:-'/usr/local/var/mdf'}"
-  local bin_path = "${MDF_BIN_PATH:-'/usr/local/bin'}"
+  local var_path="${MDF_VAR_PATH:-/usr/local/var/mdf}"
+  local bin_path="${MDF_BIN_PATH:-/usr/local/bin}"
   local top="$(dirname $(dirname $0))"
   ensure_git
   ensure_mdf_bin_path
