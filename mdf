@@ -2,6 +2,13 @@
 # vim:fileencoding=utf-8
 
 class MemoryDotfiles
+  attr_reader :var_path, :bin_path
+
+  def initialize
+    @var_path = ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'
+    @bin_path = ENV['MDF_BIN_PATH'] || '/usr/local/bin'
+  end
+
   def usage
     puts 'This is how you use `mdf`'
   end
@@ -12,18 +19,17 @@ class MemoryDotfiles
     puts "uninstalling mdf..."
 
     system <<-EOB
-    if [ -f /usr/local/bin/mdf ] ; then
-      rm /usr/local/bin/mdf
+    if [ -f #{@bin_path}/mdf ] ; then
+      rm #{@bin_path}/mdf
     fi
 
-    if [ -d /usr/local/var/mdf ] ; then
-      rm -rf /usr/local/var/mdf
+    if [ -d #{@var_path} ] ; then
+      rm -rf #{@var_path}
     fi
     EOB
 
     puts "...done"
   end
-
 end
 
 if $0 == __FILE__
