@@ -1,14 +1,43 @@
 #!/usr/bin/env ruby
 # vim:fileencoding=utf-8
 
-class MemoryDotfiles
-  attr_reader :var_path, :bin_path
+$: << File.expand_path("#{ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'}/lib")
 
-  def initialize
+require 'fileutils'
+require 'helper_functions'
+
+class MemoryDotfiles
+  include HelperFunctions
+  attr_reader :args, :bin_path, :command, :git_dir, :git_work_tree, :var_path
+
+  def initialize(command = 'usage', args)
     @var_path = ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'
     @bin_path = ENV['MDF_BIN_PATH'] || '/usr/local/bin'
-    ENV['GIT_WORK_TREE'] = "#{@var_path}/.git"
-    ENV['GIT_DIR'] = ENV['HOME']
+    ENV['GIT_DIR'] = @git_dir = "#{@var_path}/.git"
+    ENV['GIT_WORK_TREE'] = @git_work_tree = (ENV['MDF_WORK_TREE'] || ENV['HOME'])
+    @command = command.to_sym
+    @args = args
+  end
+
+  def run
+    unless respond_to?(command)
+      $stderr.puts %Q(#{RED}Invalid command `#{command}`#{RESET})
+      usage
+      exit 1
+    end
+    if _special_functions.include?(command)
+      usage
+      exit 0
+    end
+    git_init
+    exit send(command)
+  end
+
+  def git_init
+    unless File.exists?(git_dir) && File.directory?(git_dir)
+      FileUtils.mkdir_p(git_dir)
+      shell_out 'git init'
+    end
   end
 
   def usage
@@ -20,7 +49,7 @@ class MemoryDotfiles
   def uninstall
     puts "uninstalling mdf..."
 
-    system <<-EOB
+    shell_out <<-EOB
     if [ -f #{@bin_path}/mdf ] ; then
       rm #{@bin_path}/mdf
     fi
@@ -37,14 +66,7 @@ end
 if $0 == __FILE__
   command = ARGV.shift.to_sym
 
-  mdf = MemoryDotfiles.new
-  if mdf.respond_to?(command)
-    mdf.send(command)
-    exit 0
-  else
-    mdf.usage
-    exit 1
-  end
+  MemoryDotfiles.new(command, ARGV.clone).run
 end
 
 # vim:filetype=ruby
