@@ -18,10 +18,11 @@ module HelperFunctions
 
   def valid_commands
 	@valid_commands ||= %w(
-	  uninstall
-	  -h
 	  --help
+	  -h
+	  uninstall
 	  usage
+	  use
 	).map(&:to_sym)
   end
 end
