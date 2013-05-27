@@ -28,4 +28,14 @@ module HelperFunctions
 	  use
 	).map(&:to_sym)
   end
+
+  #defines :darwin?, :linux?, and :joyent? for detecting OS
+  %w(darwin linux joyent).each do |os|
+	define_method "#{os}?".to_sym do
+	  instance_variable_set("@#{os}", (
+		instance_variable_get("@#{os}") ||
+		(`uname -v | grep -i '#{os}'`.chomp =~ /#{os}/i && true)
+	  ))
+	end
+  end
 end
