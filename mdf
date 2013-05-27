@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# vim:fileencoding=utf-8
 
 $:.unshift File.expand_path("#{ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'}/lib")
 
@@ -89,5 +88,3 @@ if $0 == __FILE__
 
   MemoryDotfiles.new(command, ARGV.clone).run
 end
-
-# vim:filetype=ruby

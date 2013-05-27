@@ -71,5 +71,3 @@ end
 if $0 == __FILE__
   exit main(ARGV)
 end
-
-# vim:filetype=ruby

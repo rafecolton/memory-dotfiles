@@ -14,11 +14,11 @@ module GitCommands
         git --git-dir=#{git_remote} --bare init -q
         #{git} init -q
         #{git} remote add -m master backup #{git_remote}
-      EOB
+        EOB
     end
   end
 
   def git_push(branch = 'master')
-	"#{git} push -u backup #{branch}"
+    "#{git} push -u backup #{branch}"
   end
 end
