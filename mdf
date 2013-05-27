@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # vim:fileencoding=utf-8
 
-$: << File.expand_path("#{ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'}/lib")
+$:.unshift File.expand_path("#{ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'}/lib")
 
 require 'helper_functions'
 require 'git_commands'
@@ -15,19 +15,19 @@ class MemoryDotfiles
   attr_reader :profile_dir, :var_path
 
   def initialize(command = 'usage', args)
-    # init command
+    # initializes command-related args
     @command = command.to_sym
     @args = args.freeze
 
-    # init mdf location variables
+    # initializes mdf path-related variables
     @bin_path = ENV['MDF_BIN_PATH'] || '/usr/local/bin'
     @var_path = ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'
     @profile_dir = "#{@var_path}/profiles"
 
-    # init git-related variables
+    # initializes git-related variables
     @git_remote = "#{@var_path}/.gitremote"
     @git_dir = "#{@var_path}/.git"
-    @git_work_tree = (ENV['MDF_WORK_TREE'] || ENV['HOME'])
+    @git_work_tree = ENV['MDF_WORK_TREE'] || ENV['HOME']
 
     git_init_all unless @command == :uninstall
   end
@@ -68,13 +68,13 @@ class MemoryDotfiles
     puts "uninstalling mdf..."
 
     shell_out <<-EOB
-    if [ -f #{@bin_path}/mdf ] ; then
-      rm #{@bin_path}/mdf
-    fi
+      if [ -f #{@bin_path}/mdf ] ; then
+        rm #{@bin_path}/mdf
+      fi
 
-    if [ -d #{@var_path} ] ; then
-      rm -rf #{@var_path}
-    fi
+      if [ -d #{@var_path} ] ; then
+        rm -rf #{@var_path}
+      fi
     EOB
 
     puts "...done"
@@ -82,7 +82,7 @@ class MemoryDotfiles
 end
 
 if $0 == __FILE__
-  command = ARGV.shift.to_sym
+  command = ARGV.shift
 
   MemoryDotfiles.new(command, ARGV.clone).run
 end
