@@ -58,6 +58,9 @@ class MemoryDotfiles
   def use
   end
 
+  def restore
+  end
+
   def usage
     puts 'This is how you use `mdf`'
   end

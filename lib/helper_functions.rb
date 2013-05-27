@@ -22,6 +22,7 @@ module HelperFunctions
 	  --help
 	  -h
 	  list
+	  restore
 	  uninstall
 	  usage
 	  use

@@ -5,11 +5,11 @@ describe 'using a profile and then restoring' do
     files = file_list(DEFAULT_PROFILE_DIR)
     hash_list_before = home_hash_list(files)
 
-    # TODO: use the default profile
-    # TODO: restore from backup
+	# do stuff
+	shell_out 'mdf use default', true
+	shell_out 'mdf restore', true
 
     hash_list_after = home_hash_list(files)
-
     hash_list_before.must_equal hash_list_after
   end
 end
