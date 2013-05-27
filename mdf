@@ -3,21 +3,24 @@
 
 $: << File.expand_path("#{ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'}/lib")
 
-require 'fileutils'
 require 'helper_functions'
+require 'git_commands'
 
 class MemoryDotfiles
   include HelperFunctions
-  attr_reader :args, :bin_path, :command, :git_dir, :git_work_tree, :var_path
+  attr_reader :args, :bin_path, :command
+  attr_reader :git_dir, :git_remote, :git_work_tree
+  attr_reader :var_path
 
   def initialize(command = 'usage', args)
     @var_path = ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'
     @bin_path = ENV['MDF_BIN_PATH'] || '/usr/local/bin'
-    ENV['GIT_DIR'] = @git_dir = "#{@var_path}/.git"
-    ENV['GIT_WORK_TREE'] = @git_work_tree = (ENV['MDF_WORK_TREE'] || ENV['HOME'])
+    @git_remote = "#{@var_path}/.gitremote"
+    @git_dir = "#{@var_path}/.git"
+    @git_work_tree = (ENV['MDF_WORK_TREE'] || ENV['HOME'])
     @command = command.to_sym
     @args = args.freeze
-    git_init unless @command == :uninstall
+    git_init_all unless @command == :uninstall
   end
 
   def run
@@ -30,13 +33,6 @@ class MemoryDotfiles
   end
 
   def use
-  end
-
-  def git_init
-    unless File.exists?(git_dir) && File.directory?(git_dir)
-      FileUtils.mkdir_p(git_dir)
-      shell_out 'git init'
-    end
   end
 
   def usage
