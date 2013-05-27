@@ -1,4 +1,4 @@
 language: ruby
 before_install: source .example.env
-install: make install
+install: echo 'Skipping `install` step, installing as part of specs.'
 script: ./run-tests

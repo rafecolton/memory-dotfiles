@@ -27,10 +27,12 @@ def main(argv = [].freeze)
     ENV['MDF_VAR_PATH'] = @tmp_var
     ENV['MDF_BIN_PATH'] = @tmp_bin
     ENV['PATH'] = "#{@tmp_bin}:#{ENV['PATH']}"
+    system 'make install'
   end
 
   MiniTest::Spec.after do
     FileUtils.rm_rf([@tmp_var, @tmp_bin])
+    system 'make uninstall'
   end
 
   exit_code = MiniTest::Unit.new.run(argv)
