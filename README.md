@@ -1,6 +1,9 @@
 memory-dotfiles
 ===============
 
+[![Build Status](https://travis-ci.org/rafecolton/memory-dotfiles.png?branch=master)]
+(https://travis-ci.org/rafecolton/memory-dotfiles)
+
 ## About
 
 ### Making your dotfiles repo more accessible and less obtrusive
