@@ -18,7 +18,7 @@ module GitCommands
     end
   end
 
-  def git_push
-	@git_push ||= "#{git} push -u backup master"
+  def git_push(branch = 'master')
+	"#{git} push -u backup #{branch}"
   end
 end
