@@ -1,5 +1,5 @@
 test:
-	$(PWD)/spec/run
+	$(PWD)/run-tests
 
 install:
 	$(PWD)/scripts/install
