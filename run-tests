@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # vim:fileencoding=utf-8
 
+$:.unshift ENV['PWD']
+
 require 'spec/spec_helper'
 require 'tmpdir'
 require 'fileutils'
