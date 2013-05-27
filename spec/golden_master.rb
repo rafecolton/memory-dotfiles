@@ -25,9 +25,9 @@ def home_hash_list(file_list = [])
   file_list.map do |file|
     `#{<<-EOB}`.chomp
     if [ -f "$HOME/#{file}" ] ; then
-      bash -c "md5 -q \"$HOME/#{file}\""
+      cat "$HOME/#{file}" | openssl md5
     else
-      bash -c "md5 -qs 'not present'"
+      echo 'not present' | openssl md5
     fi
   EOB
   end
