@@ -8,18 +8,27 @@ require 'git_commands'
 
 class MemoryDotfiles
   include HelperFunctions
+  include GitCommands
+
   attr_reader :args, :bin_path, :command
   attr_reader :git_dir, :git_remote, :git_work_tree
-  attr_reader :var_path
+  attr_reader :profile_dir, :var_path
 
   def initialize(command = 'usage', args)
-    @var_path = ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'
+    # init command
+    @command = command.to_sym
+    @args = args.freeze
+
+    # init mdf location variables
     @bin_path = ENV['MDF_BIN_PATH'] || '/usr/local/bin'
+    @var_path = ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'
+    @profile_dir = "#{@var_path}/profiles"
+
+    # init git-related variables
     @git_remote = "#{@var_path}/.gitremote"
     @git_dir = "#{@var_path}/.git"
     @git_work_tree = (ENV['MDF_WORK_TREE'] || ENV['HOME'])
-    @command = command.to_sym
-    @args = args.freeze
+
     git_init_all unless @command == :uninstall
   end
 
@@ -30,6 +39,20 @@ class MemoryDotfiles
       exit 1
     end
     send(command)
+  end
+
+  def list(printit = true)
+    list = Dir["#{@profile_dir}/*/"].map{ |dir| File.basename(dir) }
+    if printit
+      formatted_list = list.map{ |i| "- #{i}" }
+      [
+        "\nProfiles",
+        '========',
+        formatted_list,
+        "\n"
+      ].each{ |i| puts i }
+    end
+    list
   end
 
   def use

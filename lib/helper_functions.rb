@@ -8,6 +8,7 @@ DEFAULT_PROFILE_DIR = File.expand_path('./profiles/default')
 
 module HelperFunctions
   private
+
   def shell_out(command = '', show_output = false)
     system "#{command}#{show_output ? '' : ' 1>/dev/null'}"
     unless $? == 0
@@ -20,6 +21,7 @@ module HelperFunctions
 	@valid_commands ||= %w(
 	  --help
 	  -h
+	  list
 	  uninstall
 	  usage
 	  use

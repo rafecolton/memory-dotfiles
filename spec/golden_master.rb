@@ -14,6 +14,12 @@ describe 'using a profile and then restoring' do
   end
 end
 
+describe 'listing profiles' do
+  it 'lists the default profile' do
+	`mdf list`.strip.must_equal "Profiles\n========\n- default"
+  end
+end
+
 def file_list(dir)
   `find #{dir} -xdev -type f`.
     chomp.
