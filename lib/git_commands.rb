@@ -11,8 +11,8 @@ module GitCommands
         set -e
         mkdir -p #{git_dir}
         mkdir -p #{git_remote}
-        git --git-dir=#{git_remote} --bare init
-        #{git} init
+        git --git-dir=#{git_remote} --bare init -q
+        #{git} init -q
         #{git} remote add -m master backup #{git_remote}
       EOB
     end
