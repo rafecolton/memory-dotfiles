@@ -2,6 +2,8 @@
 # vim:fileencoding=utf-8
 
 require 'spec/spec_helper'
+require 'tmpdir'
+require 'fileutils'
 Dir['spec/*.rb'].each{ |f| require f }
 
 def main(argv = [].freeze)
@@ -16,6 +18,18 @@ def main(argv = [].freeze)
 
     alias print puts
   end.new
+
+  MiniTest::Spec.before do
+    @tmp_var = Dir.mktmpdir(['mdf_', '_var'])
+    @tmp_bin = Dir.mktmpdir(['mdf_', '_bin'])
+    ENV['MDF_VAR_PATH'] = @tmp_var
+    ENV['MDF_BIN_PATH'] = @tmp_bin
+    ENV['PATH'] = "#{@tmp_bin}:#{ENV['PATH']}"
+  end
+
+  MiniTest::Spec.after do
+    FileUtils.rm_rf([@tmp_var, @tmp_bin])
+  end
 
   exit_code = MiniTest::Unit.new.run(argv)
   if exit_code == 0
