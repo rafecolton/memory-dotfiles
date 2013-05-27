@@ -12,13 +12,16 @@ def main(argv = [].freeze)
   MiniTest::Unit.output = Class.new do
     def puts(*args)
       args.each { |arg| announce! arg }
+      $stderr.print "\n"
+    end
+
+    def print(*args)
+      args.each { |arg| $stderr.print "#{GREEN}#{arg}#{RESET}" }
     end
 
     def announce!(something)
-      $stderr.puts "#{GOLD}golden#{RESET}: #{GREEN}#{something}#{RESET}"
+      $stderr.print "#{GOLD}golden#{RESET}: #{GREEN}#{something}#{RESET}"
     end
-
-    alias print puts
   end.new
 
   MiniTest::Spec.before do
