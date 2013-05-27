@@ -27,11 +27,13 @@ def main(argv = [].freeze)
     ENV['MDF_VAR_PATH'] = @tmp_var
     ENV['MDF_BIN_PATH'] = @tmp_bin
     ENV['PATH'] = "#{@tmp_bin}:#{ENV['PATH']}"
-    `make install`
+    system 'make install 1>/dev/null'
+    exit $?.to_i unless $? == 0
   end
 
   MiniTest::Spec.after do
-    `make uninstall`
+    system 'make uninstall 1>/dev/null'
+    exit $?.to_i unless $? == 0
     FileUtils.rm_rf([@tmp_var, @tmp_bin])
   end
 
