@@ -3,7 +3,7 @@ memory-dotfiles
 
 ## About
 
-    Like your typical dotfiles repo, but more flexible and less obtrusive
+### Making your dotfiles repo more accessible and less obtrusive
     
 The idea behind memory-dotfiles is to provide both some nice standard 
 dotfiles and also an easy way to sub them in and out on any given system.
@@ -20,14 +20,20 @@ This process should be:
 * easy
 * simple
 
-It is still just an idea (no code has been written yet), so we'll see how it goes.
+It is still just an idea, so we'll see how it goes.
+
+## Design Considerations
+
+One of the most important design goals of this project is to have as
+few dependencies as possible.  Currently, the only things it depends
+on are `ruby`, `bash`, and `git`.
 
 ## Tests
 
 To run tests:
 
 ```bash
-./runtests
+./run-tests
 ```
 
 **NOTE:** The testing strategy and output format were borrowed from 
