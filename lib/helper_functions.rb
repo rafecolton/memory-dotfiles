@@ -32,10 +32,15 @@ module HelperFunctions
   #defines :darwin?, :linux?, and :joyent? for detecting OS
   %w(darwin linux joyent).each do |os|
 	define_method "#{os}?".to_sym do
-	  instance_variable_set("@#{os}", (
-		instance_variable_get("@#{os}") ||
-		(`uname -v | grep -i '#{os}'`.chomp =~ /#{os}/i && true)
-	  ))
+	  current_value = instance_variable_get("@#{os}")
+	  if current_value.nil?
+		instance_variable_set(
+		  "@#{os}",
+		  (`uname -v | grep -i '#{os}'`.chomp =~ /#{os}/i && true)
+		)
+	  else
+		current_value
+	  end
 	end
   end
 end
