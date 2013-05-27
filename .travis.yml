@@ -1,0 +1,3 @@
+language: ruby
+install: make install
+script: ./run-tests
