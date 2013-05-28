@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.expand_path("#{ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'}/lib")
+$:.unshift File.expand_path("#{ENV['MDF_VAR_PATH']}/lib")
 
 require 'helper_functions'
 require 'git_commands'
@@ -19,14 +19,14 @@ class MemoryDotfiles
     @args = args.freeze
 
     # initializes mdf path-related variables
-    @bin_path = ENV['MDF_BIN_PATH'] || '/usr/local/bin'
-    @var_path = ENV['MDF_VAR_PATH'] || '/usr/local/var/mdf'
+    @bin_path = ENV['MDF_BIN_PATH']
+    @var_path = ENV['MDF_VAR_PATH']
     @profile_dir = "#{@var_path}/profiles"
 
     # initializes git-related variables
     @git_remote = "#{@var_path}/.gitremote"
     @git_dir = "#{@var_path}/.git"
-    @git_work_tree = ENV['MDF_WORK_TREE'] || ENV['HOME']
+    @git_work_tree = ENV['MDF_WORK_TREE']
 
     git_init_all unless @command == :uninstall
   end
