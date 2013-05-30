@@ -7,4 +7,4 @@ install:
 uninstall:
 	mdf uninstall
 
-.PHONY: test install
+.PHONY: test install uninstall
