@@ -37,8 +37,8 @@ on are `ruby`, `bash`, and `git`.
 
 ### Configuring
 
-To configure the installation and usafe of `mdf`, edit the `.example.env`
-file and source it before installing.  There are three environmental
+To configure the installation and usage of `mdf`, edit the `configure`
+file before installing.  There are three environmental
 variables that the installation script depends on:
 
 1. `MDF_VAR_PATH`
@@ -65,8 +65,8 @@ recommended that it remain as the default `$HOME`.
 
 ```bash
 git clone git@github.com:rafecolton/memory-dotfiles.git
-# edit .example.env if you wish
-source .example.env
+# edit configure if you wish
+./configure
 make install
 ```
 
