@@ -125,6 +125,11 @@ class MemoryDotfiles
   alias_method :'-h', :usage
   alias_method :'--help', :usage
 
+  def version
+    puts '0.1.0'
+  end
+  alias_method :'--version', :version
+
   def uninstall
     puts "uninstalling mdf..."
 

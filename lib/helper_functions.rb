@@ -26,6 +26,8 @@ module HelperFunctions
       uninstall
       usage
       use
+      version
+      --version
     ).map(&:to_sym)
   end
 
