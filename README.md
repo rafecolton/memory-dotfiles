@@ -6,6 +6,13 @@ memory-dotfiles
 
 ## About
 
+:boom: **NOTE: Use with caution.  This is still a WIP, so using it may
+screw some things up in your `$HOME` directory.** :boom: 
+
+If you screw something
+up and cannot fix it, submit a GitHub Issue and I will do my best to help
+you fix it.
+
 ### General
 
     Making your dotfiles more accessible and less obtrusive
