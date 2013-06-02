@@ -16,14 +16,14 @@ module GitCommands
         #{git} remote add backup #{git_remote}
         touch #{git_work_tree}/.mdf
         #{git} add #{git_work_tree}/.mdf
-        #{git} commit -m 'initial commit'
-        #{git} push -u backup master
+        #{git} commit -q -m 'initial commit'
+        #{git} push -q -u backup master > /dev/null
       EOB
     end
   end
 
   def git_push(branch = 'master')
-    "#{git} push -u backup #{branch}"
+    "#{git} push -q -u backup #{branch}"
   end
 
   # The below two functions are necessary because
