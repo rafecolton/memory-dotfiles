@@ -44,6 +44,7 @@ main() {
   _install_rbenv
   _install_janus
   source ~/.bash_profile
+  rm -f $(dirname $0)/$(basename $0)
 }
 
 main "$*"
