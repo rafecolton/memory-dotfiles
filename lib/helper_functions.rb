@@ -10,7 +10,7 @@ module HelperFunctions
   private
 
   def shell_out(command = '', show_output = false)
-    system "#{command}#{show_output ? '' : ' 2>&1>/dev/null'}"
+    system "#{command}#{show_output ? '' : ' >/dev/null 2>&1'}"
     unless $? == 0
       printerr "Error running `#{command}`"
       exit $?.to_i

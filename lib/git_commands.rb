@@ -21,17 +21,17 @@ module GitCommands
         echo $(date) > #{git_work_tree}/.mdf
         #{git} add #{git_work_tree}/.mdf
         #{git} commit -q -m 'initial commit'
-        #{git} push -q -u backup master 2>&1>/dev/null
+        #{git} push -q -u backup master >/dev/null 2>&1
       EOB
     end
   end
 
   def git_commit(message = "#{Time.now.utc.iso8601} Saving files")
-    "#{git} commit -q -m '#{message}' 2>&1>/dev/null"
+    "#{git} commit -q -m '#{message}' >/dev/null 2>&1"
   end
 
   def git_push(branch = 'master')
-    "#{git} push -q -u backup #{branch} 2>&1>/dev/null"
+    "#{git} push -q -u backup #{branch} >/dev/null 2>&1"
   end
 
   def git_commit_push(branch = 'master')
