@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 _install_gems() {
   for gem in bundler rake git-duet ; do
