@@ -1,9 +1,5 @@
 source ~/.bashrc
 
-function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-
 function grep-src { grep "$1" * -r --color=auto $2 $3 $4 --exclude=*\.log --exclude tags; }
 
 function is_darwin() {
@@ -80,7 +76,7 @@ do
   fi
 done
 
-export PS1="\e[32m[\t]\e[0m \u@${NODENAME:=$HOSTNAME}\e[33m [\w]\e[0m \$(parse_git_branch) \$(show_chef_env 2>/dev/null)\n> "
+export PS1="\e[32m[\t]\e[0m \u@${NODENAME:=$HOSTNAME}\e[33m [\w]\e[0m \$(__git_ps1) \$(show_chef_env 2>/dev/null)\n> "
 
 if [ -d "$HOME/.rbenv" ]; then
   export PATH=$PATH:~/.rbenv/bin
