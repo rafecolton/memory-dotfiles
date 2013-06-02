@@ -1,3 +1,5 @@
+require 'time'
+
 module GitCommands
   private
 
@@ -11,19 +13,32 @@ module GitCommands
         set -e
         mkdir -p #{git_dir}
         mkdir -p #{git_remote}
-        git --git-dir=#{git_remote} --bare init -q
+        git --git-dir=#{git_remote} init --bare -q
         #{git} init -q
+        #{git} config user.email 'autobot@decepticon.mdf'
+        #{git} config user.name 'Autobot Decepticon'
         #{git} remote add backup #{git_remote}
-        touch #{git_work_tree}/.mdf
+        echo $(date) > #{git_work_tree}/.mdf
         #{git} add #{git_work_tree}/.mdf
         #{git} commit -q -m 'initial commit'
-        #{git} push -q -u backup master > /dev/null
+        #{git} push -q -u backup master 2>&1>/dev/null
       EOB
     end
   end
 
+  def git_commit(message = "#{Time.now.utc.iso8601} Saving files")
+    "#{git} commit -q -m '#{message}' 2>&1>/dev/null"
+  end
+
   def git_push(branch = 'master')
-    "#{git} push -q -u backup #{branch}"
+    "#{git} push -q -u backup #{branch} 2>&1>/dev/null"
+  end
+
+  def git_commit_push(branch = 'master')
+    shell_out <<-EOB
+      #{git_commit}
+      #{git_push(branch)}
+    EOB
   end
 
   # The below two functions are necessary because

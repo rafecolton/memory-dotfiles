@@ -33,7 +33,7 @@ class MemoryDotfiles
 
   def run
     unless valid_commands.include?(command) && respond_to?(command)
-      $stderr.puts %Q(#{RED}Invalid command `#{command.to_s}`#{RESET})
+      printerr "Invalid command `#{command.to_s}`"
       usage
       exit 1
     end
@@ -41,7 +41,7 @@ class MemoryDotfiles
   end
 
   def list(printit = true)
-    list = Dir["#{@profile_dir}/*/"].map{ |dir| File.basename(dir) }
+    list = Dir["#{profile_dir}/*/"].map{ |dir| File.basename(dir) }
     if printit
       formatted_list = list.map{ |i| "- #{i}" }
       [
@@ -55,9 +55,68 @@ class MemoryDotfiles
   end
 
   def use
+    if args.count == 0
+      printerr "You must specify a profile to use"
+      exit 2
+    end
+
+    profile = args[0]
+
+    if !remote_branches.include?(profile) && !File.exists?("#{profile_dir}/#{profile}")
+      printerr "You must specify a valid profile to use"
+      exit 3
+    end
+
+    restore
+    return if profile == 'master'
+
+    git_add_profile_contents(profile)
+    git_commit_push
+
+    if remote_branches.include?(profile)
+      shell_out "#{git} checkout -q '#{profile}'"
+    else
+      shell_out "#{git} checkout -q -b '#{profile}'"
+    end
+
+    copy_over_profile_contents(profile)
+    git_add_profile_contents(profile)
+    git_commit_push(profile)
+  end
+
+  def copy_over_profile_contents(profile)
+    shell_out "cp -rf #{profile_dir}/#{profile}/ #{git_work_tree}"
+  end
+
+  def git_add_profile_contents(profile)
+    profile_contents(profile).each do |item|
+      shell_out <<-EOB
+        if [ -e #{git_work_tree}/#{item} ] ; then
+          #{git} add #{git_work_tree}/#{item}
+        fi
+      EOB
+    end
+  end
+
+  def remote_branches
+    `#{git} branch -r`.
+    chomp.
+    split("\n").
+    map{ |b| b.gsub(/backup\//, '') }.
+    map(&:strip)
+  end
+
+  def profile_contents(profile)
+    `ls -1A #{profile_dir}/#{profile}`.
+    chomp.
+    split("\n")
   end
 
   def restore
+    shell_out <<-EOB
+      #{git} reset -q --hard
+      #{git} checkout -q master
+    EOB
   end
 
   def usage
@@ -70,12 +129,12 @@ class MemoryDotfiles
     puts "uninstalling mdf..."
 
     shell_out <<-EOB
-      if [ -f #{@bin_path}/mdf ] ; then
-        rm #{@bin_path}/mdf
+      if [ -f #{bin_path}/mdf ] ; then
+        rm #{bin_path}/mdf
       fi
 
-      if [ -d #{@var_path} ] ; then
-        rm -rf #{@var_path}
+      if [ -d #{var_path} ] ; then
+        rm -rf #{var_path}
       fi
     EOB
 

@@ -12,7 +12,7 @@ module HelperFunctions
   def shell_out(command = '', show_output = false)
     system "#{command}#{show_output ? '' : ' 2>&1>/dev/null'}"
     unless $? == 0
-      $stderr.puts %Q(#{RED}Error running `#{command}`#{RESET})
+      printerr "Error running `#{command}`"
       exit $?.to_i
     end
   end
@@ -27,6 +27,10 @@ module HelperFunctions
       usage
       use
     ).map(&:to_sym)
+  end
+
+  def printerr(message)
+    $stderr.puts %Q(#{RED}#{message}#{RESET})
   end
 
   #defines :darwin?, :linux?, and :joyent? for detecting OS

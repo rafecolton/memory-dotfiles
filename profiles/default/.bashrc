@@ -32,3 +32,4 @@ if [ -d "$HOME/.bashrc.d" ] ; then
   for f in $(find "$HOME/.bashrc.d" -type f -name '*.sh') ; do
     source "$f"
   done
+fi
