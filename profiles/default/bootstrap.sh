@@ -22,6 +22,8 @@ EOF
   cat > .bash_profile.d/rbenv.sh <<EOF
   eval "\$(rbenv init -)"
 EOF
+  rbenv install 1.9.3-p392
+  rbenv global 1.9.3-p392
 }
 
 _install_janus() {
@@ -42,8 +44,8 @@ _install_janus() {
 }
 
 main() {
-  _install_gems
   _install_rbenv
+  _install_gems
   _install_janus
   source ~/.bash_profile
   rm -f $(dirname $0)/$(basename $0)
