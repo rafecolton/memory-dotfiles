@@ -93,5 +93,3 @@ if [ -d "$HOME/.bash_profile.d" ] ; then
     source "$f"
   done
 fi
-
-eval $(ssh-agent)
