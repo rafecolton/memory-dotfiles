@@ -65,6 +65,7 @@ recommended that it remain as the default `$HOME`.
 
 ```bash
 git clone git@github.com:rafecolton/memory-dotfiles.git
+cd memory-dotfiles
 # edit configure if you wish
 ./configure
 make install
@@ -87,15 +88,17 @@ mdf usage
 mdf -h
 mdf --help
 
+# print version
+mdf version
+mdf --version
+
 # list available profiles
 mdf list
 
 # use a selected profile
-# currently unimplemented
 mdf use <profile>
 
 # restore the original dotfiles
-# currently unimplemented
 mdf restore
 ```
 
