@@ -1,4 +1,5 @@
-require 'minitest/spec'
+require 'minitest/autorun'
+#require 'minitest/spec'
 
 GOLD = "\033\[33;1m"
 RESET = "\033\[0m"
