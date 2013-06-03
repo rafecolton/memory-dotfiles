@@ -3,6 +3,20 @@
 set -e
 set -x
 
+_install_tmux() {
+  if is_darwin ; then
+    pushd $HOME
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+    popd
+    brew install tmux
+    brew install reattach-to-user-namespace
+  elif is_linux ; then
+    # un-tested
+    sudo apt-get install tmux
+    # sudo apt-get reattach-to-user-namespace # <- is this necessary?
+  fi
+}
+
 _install_gems() {
   for gem in bundler rake git-duet ; do
     gem install "$gem"
@@ -47,6 +61,7 @@ main() {
   _install_rbenv
   _install_gems
   _install_janus
+  _install_tmux
   source ~/.bash_profile
   rm -f $(dirname $0)/$(basename $0)
 }
