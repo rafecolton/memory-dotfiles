@@ -6,14 +6,6 @@ function shared_setup() {
   export MDF_WORK_TREE="$HOME"
 }
 
-function ruby_backwards_compatability() {
-  version="$(ruby -e 'puts RUBY_VERSION')"
-  if echo $version | grep -q '1.8' ; then
-    gem install minitest
-    gem install minitest_tu_shim
-  fi
-}
-
 function darwin_setup() {
   shared_setup
 }
@@ -27,5 +19,3 @@ if uname | grep -i 'darwin' > /dev/null && [ $? -eq 0 ] ; then
 elif uname | grep -i 'linux' > /dev/null && [ $? -eq 0 ] ; then
   linux_setup
 fi
-
-ruby_backwards_compatability
