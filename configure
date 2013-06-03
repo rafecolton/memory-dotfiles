@@ -10,6 +10,7 @@ function ruby_backwards_compatability() {
   version="$(ruby -e 'puts RUBY_VERSION')"
   if echo $version | grep -q '1.8' ; then
     gem install minitest
+    gem install minitest_tu_shim
   fi
 }
 
