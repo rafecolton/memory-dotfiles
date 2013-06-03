@@ -14,7 +14,7 @@ set -o vi
 export PATH="$PATH:/usr/local/mysql/bin:/opt/local/bin:/usr/local/sbin"
 export EDITOR=vim
 export RAILS_ENV=development
-export TERM=xterm-color
+export TERM=xterm-256color
 export PAGER='less -FSRX'
 
 export SDC_CLI_URL="https://us-sw-1.api.joyentcloud.com"
