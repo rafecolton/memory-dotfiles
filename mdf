@@ -98,14 +98,6 @@ class MemoryDotfiles
     end
   end
 
-  def remote_branches
-    `#{git} branch -r`.
-    chomp.
-    split("\n").
-    map{ |b| b.gsub(/backup\//, '') }.
-    map(&:strip)
-  end
-
   def profile_contents(profile)
     `ls -1A #{profile_dir}/#{profile}`.
     chomp.
@@ -131,19 +123,14 @@ class MemoryDotfiles
   alias_method :'--version', :version
 
   def uninstall
-    puts "uninstalling mdf..."
+    puts 'uninstalling mdf...'
 
     shell_out <<-EOB
-      if [ -f #{bin_path}/mdf ] ; then
-        rm #{bin_path}/mdf
-      fi
-
-      if [ -d #{var_path} ] ; then
-        rm -rf #{var_path}
-      fi
+      if [ -f #{bin_path}/mdf ] ; then rm #{bin_path}/mdf fi
+      if [ -d #{var_path} ] ; then rm -rf #{var_path} fi
     EOB
 
-    puts "...done"
+    puts 'done'
   end
 end
 
