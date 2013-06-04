@@ -124,12 +124,10 @@ class MemoryDotfiles
 
   def uninstall
     puts 'uninstalling mdf...'
-
     shell_out <<-EOB
       if [ -f #{bin_path}/mdf ] ; then rm #{bin_path}/mdf ; fi
       if [ -d #{var_path} ] ; then rm -rf #{var_path} ; fi
     EOB
-
     puts 'done'
   end
 end
