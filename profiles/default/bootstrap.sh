@@ -25,7 +25,7 @@ _install_gems() {
 
 _install_rbenv() {
   pushd "$HOME" >/dev/null
-  rm -rf .rbenv
+  mv .rbenv .old.rbenv
   git clone git://github.com/sstephenson/rbenv.git .rbenv
   mkdir -p .rbenv/plugins
   git clone git://github.com/sstephenson/ruby-build.git .rbenv/plugins/ruby-build
@@ -43,7 +43,7 @@ EOF
 _install_janus() {
   pushd "$HOME" >/dev/null
   for f in .vimrc .gvimrc .vim ; do
-    rm -rf "$f"
+    mv "$f" ".old$f"
   done
   git clone https://github.com/carlhuda/janus.git .vim
 
