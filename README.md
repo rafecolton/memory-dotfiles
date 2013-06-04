@@ -65,8 +65,9 @@ must be allowed to be executed.  In addition, whatever you choose as the
 `MDF_BIN_PATH` must be in your `$PATH` before installation.
 
 The third variable, `MDF_WORK_TREE`, is the directory that
-contains the files you tend to modify.  While this *can* be changed, it is *strongly*
-recommended that it remain as the default `$HOME`.
+contains the files you intend to modify.  While this *can*
+be changed, it is *strongly* recommended that it remain as
+the default `$HOME`.
 
 ### Installing
 
