@@ -40,6 +40,21 @@ One of the most important design goals of this project is to have as
 few dependencies as possible.  Currently, the only things it depends
 on are `ruby`, `bash`, and `git`.
 
+### Supported Systems
+
+For sure works:
+
+- Darwin (Mac OS X)
+
+Somewhat untested:
+
+- Linux (Debian)
+
+Will work eventually:
+
+- SmartOS
+- Linux (CentOS)
+
 ## Usage
 
 ### Configuring
