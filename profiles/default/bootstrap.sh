@@ -17,6 +17,25 @@ _install_tmux() {
   fi
 }
 
+_install_XVim(){
+  if is_darwin ; then
+    tmpdir="$(mktemp -dt "$0.XXXXXXXXXX")"
+    pushd $tmpdir
+    git clone git@github.com:JugglerShu/XVim.git
+    echo 'Building XVim (this may take a minute)...'
+    xcodebuild -project XVim/XVim.xcodeproj >/dev/null 2>&1
+    if [ $? -ne 0 ] ; then
+      exitcode=$?
+      echo -e "\033[31mError building XVim\033[0m"
+      exit $exitcode
+    else
+      ln1='Successfully installed XVim. XVim adds vim-like key bindings to Xcode.'
+      ln2='To remove XVim: rm -rf $HOME/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XVim.xcplugin'
+      echo -e "\033[33m$ln\n$ln2\033[0m"
+    fi
+  fi
+}
+
 _install_gems() {
   for gem in bundler rake git-duet ; do
     gem install "$gem"
@@ -62,6 +81,7 @@ main() {
   _install_gems
   _install_janus
   _install_tmux
+  _install_XVim
   source ~/.bash_profile
   rm -f $(dirname $0)/$(basename $0)
 }
