@@ -19,8 +19,11 @@ quietly() {
   fi
 }
 
-# not really necessary, just here
-# for funzies
+date_utc_iso8601() {
+  echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+}
+
+# not really necessary, just here for fun
 systems=(darwin linux joyent)
 for system in ${systems[@]} ; do
   eval "
@@ -29,7 +32,3 @@ for system in ${systems[@]} ; do
     }
   "
 done
-
-date_utc_iso8601() {
-  echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-}
