@@ -44,7 +44,7 @@ function main() {
   cat <<EOB > "$bin_path/mdf"
 #!/usr/bin/env bash
 
-MDF_VAR_PATH=$var_path MDF_BIN_PATH=$bin_path MDF_WORK_TREE=$work_tree $var_path/mdf \$*
+MDF_VAR_PATH=$var_path MDF_BIN_PATH=$bin_path MDF_WORK_TREE=$work_tree $var_path/mdf \$@
 EOB
   chmod +x "$bin_path/mdf"
   mkdir -p "$var_path"
@@ -53,4 +53,4 @@ EOB
   done
 }
 
-main "$*"
+main "$@"
