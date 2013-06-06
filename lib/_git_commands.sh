@@ -1,7 +1,6 @@
-GIT="git --git-dir=$GIT_DIR --workk-tree=$GIT_WORK_TREE"
+GIT="git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE"
 
 git_init_all() {
-  set -e
   mkdir -p "$GIT_DIR"
   mkdir -p "$GIT_REMOTE"
   git --git-dir="$GIT_REMOTE" init --bare -q
@@ -13,7 +12,6 @@ git_init_all() {
   eval "$GIT add $GIT_WORK_TREE/.mdf"
   eval "$GIT commit -q -m 'Initial commit'"
   eval "$GIT push -q -u backup master"
-  set +e
 }
 
 git_commit() {
