@@ -16,7 +16,7 @@ end
 
 describe 'listing profiles' do
   it 'lists the default profile' do
-	`mdf list`.strip.must_equal "Profiles\n========\n- default"
+    `mdf list`.strip.must_equal "Profiles\n========\ndefault"
   end
 end
 
