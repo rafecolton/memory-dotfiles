@@ -36,6 +36,15 @@ uninstall() {
   echo 'done'
 }
 
+restore() {
+  quietly "$GIT reset -q --hard"
+  quietly "$GIT checkout -q master"
+}
+
+use() {
+  :
+}
+
 COMMAND=$1
 shift
 
@@ -51,13 +60,13 @@ case $COMMAND in
     list
     ;;
   restore)
-    #TODO
+    restore
     ;;
   uninstall)
     uninstall
     ;;
   use)
-    #TODO
+    use
     ;;
   version|--version)
     echo $VERSION
