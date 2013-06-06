@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+VERSION='0.1.0'
+LIB="$PWD/lib-bash"
+BIN_PATH="$MDF_BIN_PATH"
+VAR_PATH="$MDF_VAR_PATH"
+PROFILE_DIR="$VAR_PATH/profiles"
+GIT_REMOTE="$VAR_PATH/.gitremote"
+GIT_DIR="$VAR_PATH/.git"
+GIT_WORK_TREE="$MDF_WORK_TREE"
+
+# replace with find command if possible
+source "$LIB/_helper_functions.sh"
+source "$LIB/_git_commands.sh"
+source "$LIB/_cl_options.sh"
+
+usage() {
+  cat <<EOB
+
+  Usage: do stuff
+
+  hooray!
+EOB
+
+}
+
+list() {
+  echo -e "\nProfiles\n========"
+  find "$PROFILE_DIR" -d 1 -type d -exec basename {} \; | xargs echo
+}
+
+uninstall() {
+  if [ -f "$BIN_PATH/mdf" ] ; then rm "$BIN_PATH/mdf" ; fi
+  if [ -d "$VAR_PATH" ] ; then rm -rf "$VAR_PATH" ; fi
+}
+
+COMMAND=$1
+shift
+
+if [ $COMMAND != 'uninstall' ] ; then
+  : quietly "git_init_all"
+fi
+
+case $COMMAND in
+  --help|-h|usage)
+    usage
+    ;;
+  list)
+    list
+    ;;
+  restore)
+    #TODO
+    ;;
+  uninstall)
+    uninstall
+    ;;
+  use)
+    #TODO
+    ;;
+  version|--version)
+    echo $VERSION
+    ;;
+  *)
+    echoerr 'Invalid command'
+    exit 1
+    ;;
+esac
+
+exit 0
