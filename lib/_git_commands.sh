@@ -27,12 +27,22 @@ git_commit_push() {
   git_push "${1:-master}"
 }
 
-#TODO: explicitly test this
-remote_branches_includes_profile() {
+git_remote_branches_includes_profile() {
   if [ -z $1 ] ; then exit 1 ; fi
   local profile="$1"
   local remote_name="${2:-backup}"
   eval "$GIT branch -r --list '$remote_name/*' | grep -q $profile"
+}
+
+git_add_profile_contents() {
+  if [ -z $1 ] ; then exit 7 ; fi
+  local profile="$1"
+  for f in $(ls -1A "$PROFILE_DIR/$profile") ; do
+    echo "$GIT add \"$GIT_WORK_TREE/$f\""
+    if [ -e "$GIT_WORK_TREE/$f" ] ; then
+      eval "$GIT add \"$GIT_WORK_TREE/$f\""
+    fi
+  done
 }
 
 # The below two functions are necessary because
