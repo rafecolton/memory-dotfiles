@@ -29,6 +29,14 @@ git_commit_push() {
   git_push "${1:-master}"
 }
 
+#TODO: explicitly test this
+remote_branches_includes_profile() {
+  if [ -z $1 ] ; then exit 1 ; fi
+  local profile="$1"
+  local remote_name="${2:-backup}"
+  eval "$GIT branch -r --list '$remote_name/*' | grep -q $profile"
+}
+
 # The below two functions are necessary because
 # there is a bug in `git` such that it will not
 # honor the --work-tree option for the git-stash
