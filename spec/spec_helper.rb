@@ -9,7 +9,7 @@ BRIGHT_RED = "\033\[31;1m"
 DEFAULT_PROFILE_DIR = File.expand_path('./profiles/default')
 
 def shell_out(command = '', show_output = false)
-  system "#{command}#{show_output ? '' : ' 1>/dev/null'}"
+  system "#{command}#{show_output ? '' : ' >/dev/null 2>&1'}"
   unless $? == 0
     $stderr.puts %Q(#{RED}Error running `#{command}`#{RESET})
     exit $?.to_i

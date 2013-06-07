@@ -1,16 +1,29 @@
 require 'spec/spec_helper'
 
 describe 'using a profile and then restoring' do
+  let(:files){ file_list(DEFAULT_PROFILE_DIR) }
+  before do
+    @hash_list_before = home_hash_list(files)
+  end
+
   it 'leaves the files unchanged after restoring' do
-    files = file_list(DEFAULT_PROFILE_DIR)
-    hash_list_before = home_hash_list(files)
+    shell_out 'mdf use default'
+    shell_out 'mdf restore'
+  end
 
-    # do stuff
-    shell_out 'mdf use default', true
-    shell_out 'mdf restore', true
+  # covers a bug that previously existed
+  it 'also works when run from a different directory' do
+    shell_out <<-EOB
+      pushd $HOME >/dev/null
+      mdf use default
+      mdf restore
+      popd >/dev/null
+    EOB
+  end
 
+  after do
     hash_list_after = home_hash_list(files)
-    hash_list_before.must_equal hash_list_after
+    @hash_list_before.must_equal hash_list_after
   end
 end
 
