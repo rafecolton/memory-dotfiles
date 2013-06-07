@@ -62,7 +62,9 @@ EOF
 _install_janus() {
   pushd "$HOME" >/dev/null
   for f in .vimrc .gvimrc .vim ; do
-    mv "$f" ".old$f"
+    if [ -e $f ] ; then
+      mv "$f" ".old$f"
+    fi
   done
   git clone https://github.com/carlhuda/janus.git .vim
 
@@ -86,4 +88,4 @@ main() {
   rm -f $(dirname $0)/$(basename $0)
 }
 
-main "$*"
+main "$@"
