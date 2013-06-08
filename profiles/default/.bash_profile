@@ -82,6 +82,7 @@ export PS1="\e[32m[\t]\e[0m \u@${NODENAME:=$HOSTNAME}\e[33m [\w]\e[0m \$(__git_p
 
 if [ -d "$HOME/.rbenv" ]; then
   add_to_path_before "$HOME/.rbenv/bin"
+  eval "$(rbenv init -)"
   add_to_path_before "$HOME/.rbenv/shims"
 fi
 
