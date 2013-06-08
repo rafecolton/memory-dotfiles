@@ -59,9 +59,9 @@ Will work eventually:
 
 ### Configuring
 
-To configure the installation and usage of `mdf`, edit the `configure`
-file before installing.  There are three environmental
-variables that the installation script depends on:
+To configure the installation and usage of `mdf`, there are three
+environmental that can be set before installing.  The three variables
+are:
 
 1. `MDF_VAR_PATH`
 2. `MDF_BIN_PATH`
@@ -89,8 +89,6 @@ the default `$HOME`.
 ```bash
 git clone git@github.com:rafecolton/memory-dotfiles.git
 cd memory-dotfiles
-# edit configure if you wish
-./configure
 make install
 ```
 
