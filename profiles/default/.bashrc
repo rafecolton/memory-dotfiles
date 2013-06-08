@@ -11,7 +11,22 @@ export GIT_PS1_SHOWUPSTREAM="auto"
 
 set -o vi
 
-export PATH="$PATH:/usr/local/mysql/bin:/opt/local/bin:/usr/local/sbin"
+function add_to_path_before {
+  if [ ! -z $1 ] && ! echo $PATH | grep -q "$1" ; then
+    export PATH="$1:$PATH"
+  fi
+}
+
+function add_to_path_after {
+  if [ ! -z $1 ] && ! echo $PATH | grep -q "$1" ; then
+    export PATH="$PATH:$1"
+  fi
+}
+
+for path in "/usr/local/sbin" "/opt/local/bin" "/usr/local/mysql/bin" ; do
+  add_to_path_after "$path"
+done
+
 export EDITOR=vim
 export RAILS_ENV=development
 export TERM=xterm-256color
