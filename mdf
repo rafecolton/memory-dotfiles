@@ -9,9 +9,9 @@ GIT_REMOTE="$VAR_PATH/.gitremote"
 GIT_DIR="$VAR_PATH/.git"
 GIT_WORK_TREE="$MDF_WORK_TREE"
 
-# replace with find command if possible
-source "$LIB/_helper_functions.sh"
-source "$LIB/_git_commands.sh"
+for file in $(find $LIB -type f -name '*.sh') ; do
+  source $file
+done
 
 usage() {
   cat <<EOB
