@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
 
 _install_tmux() {
   if is_darwin ; then
@@ -67,6 +66,9 @@ _install_janus() {
   pushd "$HOME" >/dev/null
   for f in .vimrc .gvimrc .vim ; do
     if [ -e $f ] ; then
+      if [ -e ".old$f" ] ; then
+        rm -rf ".old$f"
+      fi
       mv "$f" ".old$f"
     fi
   done
