@@ -36,7 +36,7 @@ describe 'listing profiles' do
 end
 
 def file_list(dir)
-  `find #{dir} -depth '1' -type 'f'`.
+  `find #{dir} -mindepth 1 -maxdepth 1 -type f`.
     chomp.
     split("\n").
     map{ |f| f.gsub(/^#{dir}\//, '') }
