@@ -25,7 +25,7 @@ EOB
 
 list() {
   echo -e "\nProfiles\n========"
-  find "$PROFILE_DIR" -depth '1' -type 'd' -exec basename {} \;
+  find "$PROFILE_DIR" -depth '1' -type 'd' -exec basename '{}' \;
 }
 
 uninstall() {
