@@ -38,7 +38,7 @@ It is still just an idea, so we'll see how it goes.
 
 One of the most important design goals of this project is to have as
 few dependencies as possible.  Currently, the only things it depends
-on are `ruby`, `bash`, and `git`.
+on are <del>`ruby`</del>, `bash`, and `git`.
 
 ### Supported Systems
 
