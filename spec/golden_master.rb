@@ -23,7 +23,9 @@ describe 'using a profile and then restoring' do
 
   after do
     hash_list_after = home_hash_list(files)
-    @hash_list_before.must_equal hash_list_after
+    hash_list_after.each_with_index do |item, index|
+      item.must_equal @hash_list_before[index]
+    end
   end
 end
 
@@ -42,7 +44,7 @@ end
 
 def home_hash_list(file_list = [])
   file_list.map do |file|
-    `#{<<-EOB}`.chomp
+    "#{file} => #{`#{<<-EOB}`.chomp}"
     if [ -f "$HOME/#{file}" ] ; then
       cat "$HOME/#{file}" | openssl md5
     else
