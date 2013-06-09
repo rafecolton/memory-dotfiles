@@ -20,9 +20,12 @@ if is_darwin ; then
   alias gvim="mvim --remote-send '<C-w>n'; mvim --remote-silent"
   alias vi='mvim -v'
   alias vim='mvim -v'
-  for path in 'sbin' 'bin' ; do
-    add_to_path_before "$BREW_PREFIX/$path"
-  done
+
+  if [ -n "$BREW_PREFIX" ] ; then
+    for path in "$BREW_PREFIX/sbin" "$BREW_PREFIX/bin" ; do
+      prepend_to_path "$path"
+    done
+  fi
 
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     source $(brew --prefix)/etc/bash_completion
@@ -68,7 +71,7 @@ shopt -s histappend # append instead of rewrite
 export LESS=FRX
 
 if [ -d "$HOME/bin" ] ; then
-  add_to_path_before "$HOME/bin"
+  prepend_to_path "$HOME/bin"
 fi
 
 for completion_file in $(find $HOME/.bash_completion.d/ -type f)
@@ -81,9 +84,9 @@ done
 export PS1="\e[32m[\t]\e[0m \u@${NODENAME:=$HOSTNAME}\e[33m [\w]\e[0m \$(__git_ps1) \$(show_chef_env 2>/dev/null)\n> "
 
 if [ -d "$HOME/.rbenv" ]; then
-  add_to_path_before "$HOME/.rbenv/bin"
+  prepend_to_path "$HOME/.rbenv/bin"
   eval "$(rbenv init -)"
-  add_to_path_before "$HOME/.rbenv/shims"
+  prepend_to_path "$HOME/.rbenv/shims"
 fi
 
 if [ -d "$HOME/.bash_profile.d" ] ; then
