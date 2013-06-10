@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
 
 _install_tmux() {
   if is_darwin ; then
@@ -49,11 +48,15 @@ _install_rbenv() {
   mkdir -p .rbenv/plugins
   git clone git://github.com/sstephenson/ruby-build.git .rbenv/plugins/ruby-build
   git clone git://github.com/sstephenson/rbenv-gem-rehash.git .rbenv/plugins/rbenv-gem-rehash
+  mkdir -p .bashrc.d
+  mkdir -p .bash_profile.d
   cat > .bashrc.d/rbenv.sh <<EOF
-export PATH="\$HOME/.rbenv/bin:\$PATH"
+if ! echo \$PATH | grep -q "\$HOME/.rbenv/bin" ; then
+  export PATH="\$HOME/.rbenv/bin:\$PATH"
+fi
 EOF
   cat > .bash_profile.d/rbenv.sh <<EOF
-  eval "\$(rbenv init -)"
+eval "\$(rbenv init -)"
 EOF
   rbenv install 1.9.3-p392
   rbenv global 1.9.3-p392
@@ -62,7 +65,12 @@ EOF
 _install_janus() {
   pushd "$HOME" >/dev/null
   for f in .vimrc .gvimrc .vim ; do
-    mv "$f" ".old$f"
+    if [ -e $f ] ; then
+      if [ -e ".old$f" ] ; then
+        rm -rf ".old$f"
+      fi
+      mv "$f" ".old$f"
+    fi
   done
   git clone https://github.com/carlhuda/janus.git .vim
 
@@ -86,4 +94,4 @@ main() {
   rm -f $(dirname $0)/$(basename $0)
 }
 
-main "$*"
+main "$@"

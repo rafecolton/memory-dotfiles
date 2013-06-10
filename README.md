@@ -6,13 +6,6 @@ memory-dotfiles
 
 ## About
 
-:boom: **NOTE: Use with caution.  This is still a WIP, so using it may
-screw some things up in your `$HOME` directory.** :boom: 
-
-If you screw something
-up and cannot fix it, submit a GitHub Issue and I will do my best to help
-you fix it.
-
 ### General
 
     Making your dotfiles more accessible and less obtrusive
@@ -34,11 +27,31 @@ This process should be:
 
 It is still just an idea, so we'll see how it goes.
 
+### Gotchas
+
+:boom: **NOTE: Use with caution.  This is still a WIP, so using it may
+screw some things up in your `$HOME` directory.** :boom: 
+
+If you screw something up and cannot fix it, submit a GitHub Issue and I will
+do my best to help you fix it.
+
+In addition to this being a WIP, there is one small gotcha with symlinks. For
+any of the files in your dotfiles, if the file in your `$HOME` directory you
+intend for it to replace is a symlink, it is likely that you will lose the
+contents of the file to which that symlink points.  I have not found a clean
+solution for this yet, so until I do, I suggest one of the following work-arounds:
+
+1. Delete the symlink (but not the file it references) from your `$HOME`
+directory before running MDF.  Then, recreate it manually after you
+restore, or add it to a bootstrap script somewhere.
+2. Ensure that for all files in your dotfiles, the corresponding file
+in `$HOME` is *not* a symlink.  Regular files will be unaffected.
+
 ### Design Considerations
 
 One of the most important design goals of this project is to have as
 few dependencies as possible.  Currently, the only things it depends
-on are `ruby`, `bash`, and `git`.
+on are <del>`ruby`</del>, `bash`, and `git`.
 
 ### Supported Systems
 
@@ -59,9 +72,9 @@ Will work eventually:
 
 ### Configuring
 
-To configure the installation and usage of `mdf`, edit the `configure`
-file before installing.  There are three environmental
-variables that the installation script depends on:
+To configure the installation and usage of `mdf`, there are three
+environmental that can be set before installing.  The three variables
+are:
 
 1. `MDF_VAR_PATH`
 2. `MDF_BIN_PATH`
@@ -89,8 +102,6 @@ the default `$HOME`.
 ```bash
 git clone git@github.com:rafecolton/memory-dotfiles.git
 cd memory-dotfiles
-# edit configure if you wish
-./configure
 make install
 ```
 
