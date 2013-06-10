@@ -77,7 +77,7 @@ use() {
   fi
 
   # copy profile contents into git work tree
-  rsync -aqz "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE"
+  rsync -aqz --safe-links "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE"
 
   # Once the new files have been added to the home
   # directory, put them under version control.That
