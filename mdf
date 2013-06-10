@@ -85,7 +85,7 @@ use() {
   # branch can be checked out and the files don't
   # need to be copied over again.
   quietly "git_add_profile_contents \"$profile\""
-  quietly "git_commit_push '$profile'"
+  quietly "git_commit_push \"$profile\""
 }
 
 COMMAND=$1
