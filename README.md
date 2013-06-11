@@ -47,6 +47,9 @@ restore, or add it to a bootstrap script somewhere.
 2. Ensure that for all files in your dotfiles, the corresponding file
 in `$HOME` is *not* a symlink.  Regular files will be unaffected.
 
+Also, you may need to manually add private things like an updated `.git-authors`
+file and ssh keys.
+
 ### Design Considerations
 
 One of the most important design goals of this project is to have as
