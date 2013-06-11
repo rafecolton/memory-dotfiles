@@ -1,8 +1,6 @@
 language: ruby
 rvm:
-  - 1.9.2
   - 1.9.3
   - jruby-19mode
-before_install: ./configure
 install: echo 'Skipping `install` step, installing as part of specs.'
 script: ./run-tests

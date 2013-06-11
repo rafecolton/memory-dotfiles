@@ -1,139 +1,123 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-$:.unshift File.expand_path("#{ENV['MDF_VAR_PATH']}/lib")
+VERSION='0.1.0'
+LIB="$MDF_VAR_PATH/lib"
+BIN_PATH="$MDF_BIN_PATH"
+VAR_PATH="$MDF_VAR_PATH"
+PROFILE_DIR="$VAR_PATH/profiles"
+GIT_REMOTE="$VAR_PATH/.gitremote"
+GIT_DIR="$VAR_PATH/.git"
+GIT_WORK_TREE="$MDF_WORK_TREE"
 
-require 'helper_functions'
-require 'git_commands'
+for file in $(find "$LIB" -type f -name '*.sh') ; do
+  source $file
+done
 
-class MemoryDotfiles
-  include HelperFunctions
-  include GitCommands
+usage() {
+  cat <<EOB
 
-  attr_reader :args, :bin_path, :command
-  attr_reader :git_dir, :git_remote, :git_work_tree
-  attr_reader :profile_dir, :var_path
+  Usage: do stuff
 
-  def initialize(command = 'usage', args)
-    # initializes command-related args
-    @command = command.to_sym
-    @args = args.freeze
+  hooray!
+EOB
 
-    # initializes mdf path-related variables
-    @bin_path = ENV['MDF_BIN_PATH']
-    @var_path = ENV['MDF_VAR_PATH']
-    @profile_dir = "#{@var_path}/profiles"
+}
 
-    # initializes git-related variables
-    @git_remote = "#{@var_path}/.gitremote"
-    @git_dir = "#{@var_path}/.git"
-    @git_work_tree = ENV['MDF_WORK_TREE']
+list() {
+  echo -e "\nProfiles\n========"
+  find "$PROFILE_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;
+}
 
-    git_init_all unless @command == :uninstall
-  end
+uninstall() {
+  echo 'uninstalling mdf...'
+  restore
+  quietly "if [ -f \"$BIN_PATH/mdf\" ] ; then rm \"$BIN_PATH/mdf\" ; fi"
+  quietly "if [ -d \"$VAR_PATH\" ] ; then rm -rf \"$VAR_PATH\" ; fi"
+  echo 'done'
+}
 
-  def run
-    unless valid_commands.include?(command) && respond_to?(command)
-      printerr "Invalid command `#{command.to_s}`"
-      usage
-      exit 1
-    end
-    send(command)
-  end
+restore() {
+  quietly "$GIT reset -q --hard"
+  quietly "$GIT checkout -q master"
+}
 
-  def list(printit = true)
-    list = Dir["#{profile_dir}/*/"].map{ |dir| File.basename(dir) }
-    if printit
-      formatted_list = list.map{ |i| "- #{i}" }
-      [
-        "\nProfiles",
-        '========',
-        formatted_list,
-        "\n"
-      ].each{ |i| puts i }
-    end
+use() {
+  # profile must be specified
+  if [ -z $1 ] ; then
+    echoerr 'You must specify a profile to use'
+    exit 2
+  fi
+  local profile="$1"
+
+  # Determine if a branch already exists for the profile.
+  # If not, then there must be a valid directory for the
+  # profile.
+  local has_profile=1
+  if git_remote_branches_includes_profile "$profile" ; then
+    has_profile=0
+  elif [ ! -e "$PROFILE_DIR/$profile" ] ; then
+    echoerr 'You must specify a valid profile to use'
+  fi
+
+  # restore original home directory first
+  restore
+  if [ $profile == 'master' ] ; then return 0 ; fi
+
+  # `git add`, `git commit`, and `git push` for
+  # original home directory
+  quietly "git_add_profile_contents \"$profile\""
+  quietly "git_commit_push 'master'"
+
+  # either check out a new branch or, if a branch already
+  # exists for the selected profile, check it out instead
+  if [ $has_profile -eq 0 ] ; then
+    quietly "eval \"$GIT checkout -q '$profile'\""
+  else
+    quietly "eval \"$GIT checkout -q -b '$profile'\""
+  fi
+
+  # copy profile contents into git work tree
+  rsync -aqz --safe-links "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE"
+
+  # Once the new files have been added to the home
+  # directory, put them under version control.That
+  # way, the next time the profile is used, the
+  # branch can be checked out and the files don't
+  # need to be copied over again.
+  quietly "git_add_profile_contents \"$profile\""
+  quietly "git_commit_push \"$profile\""
+}
+
+COMMAND=$1
+shift
+
+if [ $COMMAND != 'uninstall' ] ; then
+  quietly "git_init_all"
+fi
+
+case $COMMAND in
+  --help|-h|usage)
+    usage
+    ;;
+  list)
     list
-  end
-
-  def use
-    if args.count == 0
-      printerr "You must specify a profile to use"
-      exit 2
-    end
-
-    profile = args[0]
-
-    if !remote_branches.include?(profile) && !File.exists?("#{profile_dir}/#{profile}")
-      printerr "You must specify a valid profile to use"
-      exit 3
-    end
-
+    ;;
+  restore)
     restore
-    return if profile == 'master'
+    ;;
+  uninstall)
+    uninstall
+    ;;
+  use)
+    use "$@"
+    ;;
+  version|--version)
+    echo $VERSION
+    ;;
+  *)
+    echoerr 'Invalid command'
+    exit 1
+    ;;
+esac
 
-    git_add_profile_contents(profile)
-    git_commit_push
-
-    if remote_branches.include?(profile)
-      shell_out "#{git} checkout -q '#{profile}'"
-    else
-      shell_out "#{git} checkout -q -b '#{profile}'"
-    end
-
-    copy_over_profile_contents(profile)
-    git_add_profile_contents(profile)
-    git_commit_push(profile)
-  end
-
-  def copy_over_profile_contents(profile)
-    shell_out "cp -rf #{profile_dir}/#{profile}/ #{git_work_tree}"
-  end
-
-  def git_add_profile_contents(profile)
-    profile_contents(profile).each do |item|
-      shell_out <<-EOB
-        if [ -e #{git_work_tree}/#{item} ] ; then
-          #{git} add #{git_work_tree}/#{item}
-        fi
-      EOB
-    end
-  end
-
-  def profile_contents(profile)
-    `ls -1A #{profile_dir}/#{profile}`.
-    chomp.
-    split("\n")
-  end
-
-  def restore
-    shell_out <<-EOB
-      #{git} reset -q --hard
-      #{git} checkout -q master
-    EOB
-  end
-
-  def usage
-    puts 'This is how you use `mdf`'
-  end
-  alias_method :'-h', :usage
-  alias_method :'--help', :usage
-
-  def version
-    puts '0.1.0'
-  end
-  alias_method :'--version', :version
-
-  def uninstall
-    puts 'uninstalling mdf...'
-    shell_out <<-EOB
-      if [ -f #{bin_path}/mdf ] ; then rm #{bin_path}/mdf ; fi
-      if [ -d #{var_path} ] ; then rm -rf #{var_path} ; fi
-    EOB
-    puts 'done'
-  end
-end
-
-if $0 == __FILE__
-  command = ARGV.shift
-
-  MemoryDotfiles.new(command, ARGV.clone).run
-end
+exit 0
