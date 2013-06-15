@@ -40,7 +40,10 @@ git_add_profile_contents() {
   for f in $(ls -1A "$PROFILE_DIR/$profile") ; do
     echo "$GIT add \"$GIT_WORK_TREE/$f\""
     if [ -e "$GIT_WORK_TREE/$f" ] ; then
-      eval "$GIT add \"$GIT_WORK_TREE/$f\""
+      # Done this way because otherwise git follows symlinks when adding.
+      pushd "$GIT_WORK_TREE"
+      git --git-dir="$GIT_DIR" add $f
+      popd
     fi
   done
 }
