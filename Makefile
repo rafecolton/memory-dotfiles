@@ -1,8 +1,8 @@
 test:
-	$(PWD)/run-tests
+	$$PWD/run-tests
 
 install:
-	$(PWD)/scripts/install
+	$$PWD/scripts/install
 
 uninstall:
 	mdf uninstall
