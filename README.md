@@ -27,28 +27,14 @@ This process should be:
 
 It is still just an idea, so we'll see how it goes.
 
-### Gotchas
+### Disclaimers
 
-:boom: **NOTE: Use with caution.  This is still a WIP, so using it may
-screw some things up in your `$HOME` directory.** :boom: 
-
-If you screw something up and cannot fix it, submit a GitHub Issue and I will
+1. Use with caution.  This is still a WIP, so using it may
+screw some things up in your `$HOME` directory.
+2. If you screw something up and cannot fix it, submit a GitHub Issue and I will
 do my best to help you fix it.
-
-In addition to this being a WIP, there is one small gotcha with symlinks. For
-any of the files in your dotfiles, if the file in your `$HOME` directory you
-intend for it to replace is a symlink, it is likely that you will lose the
-contents of the file to which that symlink points.  I have not found a clean
-solution for this yet, so until I do, I suggest one of the following work-arounds:
-
-1. Delete the symlink (but not the file it references) from your `$HOME`
-directory before running MDF.  Then, recreate it manually after you
-restore, or add it to a bootstrap script somewhere.
-2. Ensure that for all files in your dotfiles, the corresponding file
-in `$HOME` is *not* a symlink.  Regular files will be unaffected.
-
-Also, you may need to manually add private things like an updated `.git-authors`
-file and ssh keys.
+3. Also, you may need to manually add private things like an updated `.git-authors`
+file and `ssh` keys.
 
 ### Design Considerations
 
