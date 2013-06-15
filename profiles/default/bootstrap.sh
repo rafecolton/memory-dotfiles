@@ -84,14 +84,34 @@ _install_janus() {
   popd >/dev/null
 }
 
+script_path() {
+  (cd "$(dirname $0)" && echo "$(pwd -P)/$(basename $0)")
+}
+
+delete_self_and_exit() {
+  rm -f "$(script_path)"
+  exit 0
+}
+
+janus_only() {
+  _install_janus
+  source "$HOME/.bash_profile"
+  delete_self_and_exit
+}
+
 main() {
   _install_rbenv
   _install_gems
   _install_janus
   _install_tmux
   _install_XVim
-  source ~/.bash_profile
-  rm -f $(dirname $0)/$(basename $0)
+  source "$HOME/.bash_profile"
+  delete_self_and_exit
 }
 
-main "$@"
+if [ $# -gt 0 ] && [ "$1" == '--janus-only' ] ; then
+  shift
+  janus_only "$@"
+else
+  main "$@"
+fi
