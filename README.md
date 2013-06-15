@@ -111,10 +111,12 @@ make install
 ### Uninstalling
 
 ```bash
-# this will change at some point to be a bit safer
+# to uninstall normally
 mdf uninstall
-# ...or...
-make uninstall
+
+# to restore and uninstall
+mdf uninstall -c
+mdf uninstall --clean
 ```
 
 ### Using
