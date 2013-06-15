@@ -11,9 +11,24 @@ export GIT_PS1_SHOWUPSTREAM="auto"
 
 set -o vi
 
-if [ -f /etc/profile ] ; then
-  PATH=''
-  source /etc/profile
+function is_darwin() {
+  uname | grep -i 'darwin' > /dev/null && [ $? -eq 0 ]
+}
+
+function is_linux() {
+  uname | grep -i 'linux' > /dev/null && [ $? -eq 0 ]
+}
+
+function is_sunos() {
+  uname | grep -i 'sunos' > /dev/null && [ $? -eq 0 ]
+}
+
+
+if is_darwin ; then
+  if [ -f /etc/profile ] ; then
+    PATH=''
+    source /etc/profile
+  fi
 fi
 
 function prepend_to_path {

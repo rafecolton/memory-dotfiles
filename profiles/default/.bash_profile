@@ -2,18 +2,6 @@ source ~/.bashrc
 
 function grep-src { grep "$1" * -r --color=auto $2 $3 $4 --exclude=*\.log --exclude tags; }
 
-function is_darwin() {
-  uname -v | grep -i 'darwin' > /dev/null && [ $? -eq 0 ]
-}
-
-function is_linux() {
-  uname -v | grep -i 'linux' > /dev/null && [ $? -eq 0 ]
-}
-
-function is_joyent() {
-  uname -v | grep -i 'joyent' > /dev/null && [ $? -eq 0 ]
-}
-
 if is_darwin ; then
   BREW_PREFIX=`brew --prefix`
   alias ctags="$BREW_PREFIX/bin/ctags"
