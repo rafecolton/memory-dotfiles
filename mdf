@@ -80,7 +80,7 @@ use() {
   rsync -aqz --safe-links "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE"
 
   # make sure the current user owns all dotfiles
-  for file in $(rsync --list-only "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE") ; do
+  for file in $(rsync --list-only "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE" | cut -c 44-) ; do
     chown -R $(whomai):$(whomai) "$file"
   done
 
