@@ -24,7 +24,7 @@ if is_linux ; then
   alias vi='vim'
 fi
 
-if is_joyent ; then
+if is_sunos ; then
   export ac_cv_func_dl_iterate_phdr='no'
   export rb_cv_have_signbit='no'
   export C_INCLUDE_PATH='/opt/local/include'
