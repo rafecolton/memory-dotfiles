@@ -40,7 +40,6 @@ function main() {
   local top="$(dirname $(dirname $0))"
   ensure_git
   ensure_mdf_bin_path
-  #cp "$top/mdf" "$bin_path"
   cat <<EOB > "$bin_path/mdf"
 #!/usr/bin/env bash
 
