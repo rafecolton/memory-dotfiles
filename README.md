@@ -48,7 +48,7 @@ For sure works:
 
 - Darwin (Mac OS X)
 
-Somewhat untested:
+Slightly broken but will work soon:
 
 - Linux (Debian)
 
@@ -91,7 +91,7 @@ the default `$HOME`.
 ```bash
 git clone git@github.com:rafecolton/memory-dotfiles.git
 cd memory-dotfiles
-make install
+./script/install
 ```
 
 ### Uninstalling
@@ -109,22 +109,10 @@ mdf uninstall --clean
 
 ```bash
 # print usage
-mdf usage
-mdf -h
 mdf --help
 
-# print version
-mdf version
-mdf --version
-
-# list available profiles
-mdf list
-
-# use a selected profile
-mdf use <profile>
-
-# restore the original dotfiles
-mdf restore
+# print usage of specific command
+mdf help <command>
 ```
 
 ## Tests
@@ -133,8 +121,6 @@ To run tests:
 
 ```bash
 ./run-tests
-# ...or...
-make test
 ```
 
 **NOTE:** The testing strategy and output format were borrowed from 
