@@ -30,7 +30,7 @@ def main(argv = [].freeze)
     ENV['MDF_VAR_PATH'] = @tmp_var
     ENV['MDF_BIN_PATH'] = @tmp_bin
     ENV['PATH'] = "#{@tmp_bin}:#{ENV['PATH']}"
-    shell_out "#{File.expand_path(File.dirname(__FILE__))}/scripts/install"
+    shell_out "#{File.expand_path(File.dirname(__FILE__))}/script/install"
   end
 
   MiniTest::Spec.after do
