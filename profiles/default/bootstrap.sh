@@ -2,6 +2,18 @@
 
 set -e
 
+function is_darwin() {
+  uname | grep -i 'darwin' > /dev/null && [ $? -eq 0 ]
+}
+
+function is_linux() {
+  uname | grep -i 'linux' > /dev/null && [ $? -eq 0 ]
+}
+
+function is_sunos() {
+  uname | grep -i 'sunos' > /dev/null && [ $? -eq 0 ]
+}
+
 _install_tmux() {
   if is_darwin ; then
     if [ ! which brew ] ; then
@@ -30,7 +42,7 @@ _install_XVim(){
     else
       ln1='Successfully installed XVim. XVim adds vim-like key bindings to Xcode.'
       ln2='To remove XVim: rm -rf $HOME/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XVim.xcplugin'
-      echo -e "\033[33m$ln\n$ln2\033[0m"
+      echo -e "\033[33m$ln1\n$ln2\033[0m"
     fi
   fi
 }

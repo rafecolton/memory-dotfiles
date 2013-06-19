@@ -13,7 +13,7 @@ def clear
   system 'clear'
 end
 
-if true # if we want to display query log for all queries
+if false # if we want to display query log for all queries
   require 'logger'
 
   if ENV.include?('RAILS_ENV') && !Object.const_defined?('RAILS_DEFAULT_LOGGER')
