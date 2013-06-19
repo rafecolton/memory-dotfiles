@@ -36,7 +36,7 @@ export RUBY_MAKE_OPTS=""
 
 alias .g='source ~/.bash_profile'
 alias a='activate'
-alias ca='activate_cookbook'
+alias ca='cookbook_activate'
 alias be='bundle exec'
 alias tbe='time bundle exec'
 alias t='time'
