@@ -107,12 +107,20 @@ mdf uninstall --clean
 
 ### Using
 
-```bash
-# print usage
-mdf --help
+```
+Usage: mdf <comand> [options]
 
-# print usage of specific command
-mdf help <command>
+Command list:
+<usage | --help | -h>   : display this message
+<list>                  : list available profiles
+<restore>               : restore working tree to original state
+<uninstall>             : uninstall mdf entirely
+<use>                   : deploy a selected dotfile set
+<version | --verison>   : print version number and exit
+
+You can also type `mdf help <command>` to learn more about a particular command.
+
+Happy coding!
 ```
 
 ## Tests
