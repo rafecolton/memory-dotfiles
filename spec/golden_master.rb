@@ -37,19 +37,19 @@ end
 
 def file_list(dir)
   `find #{dir} -mindepth 1 -maxdepth 1 -type f`.
-    chomp.
-    split("\n").
-    map{ |f| f.gsub(/^#{dir}\//, '') }
+  chomp.
+  split("\n").
+  map{ |f| f.gsub(/^#{dir}\//, '') }
 end
 
 def home_hash_list(file_list = [])
   file_list.map do |file|
     "#{file} => #{`#{<<-EOB}`.chomp}"
-    if [ -f "$HOME/#{file}" ] ; then
-      cat "$HOME/#{file}" | openssl md5
-    else
-      echo 'not present' | openssl md5
-    fi
-  EOB
+      if [ -f "$HOME/#{file}" ] ; then
+        cat "$HOME/#{file}" | openssl md5
+      else
+        echo 'not present' | openssl md5
+      fi
+    EOB
   end
 end
