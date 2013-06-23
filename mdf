@@ -9,7 +9,7 @@ GIT_REMOTE="$VAR_PATH/.gitremote"
 GIT_DIR="$VAR_PATH/.git"
 GIT_WORK_TREE="$MDF_WORK_TREE"
 
-for file in $(find "$LIB" -type f -name '*.sh') ; do
+for file in $(find "$LIB" -type f -name '*.bash') ; do
   source $file
 done
 
