@@ -112,6 +112,7 @@ Usage: mdf <comand> [options]
 
 Command list:
 <usage | --help | -h>   : display this message
+<add>                   : add a new profile
 <list>                  : list available profiles
 <restore>               : restore working tree to original state
 <uninstall>             : uninstall mdf entirely
