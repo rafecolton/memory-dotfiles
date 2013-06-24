@@ -23,6 +23,7 @@ usage() {
 
   Command list:
   <usage | --help | -h>   : display this message
+  <add>                   : add a new profile
   <list>                  : list available profiles
   <restore>               : restore working tree to original state
   <uninstall>             : uninstall mdf entirely
@@ -113,6 +114,9 @@ if [ $COMMAND != 'uninstall' ] ; then
 fi
 
 case $COMMAND in
+  add)
+    add "$@"
+    ;;
   --help|-h|usage)
     usage
     ;;

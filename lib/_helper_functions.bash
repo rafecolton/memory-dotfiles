@@ -3,10 +3,15 @@ RESET="\033[0m"
 GREEN="\033[32m"
 RED="\033[31m"
 BRIGHT_GREEN="\033[32;1m"
-BRIGHT_RED="\033\[31;1m"
+BRIGHT_RED="\033[31;1m"
+YELLOW="\033[33m"
 
 echoerr() {
-  echo -e "$RED$1$RESET"
+  echo -e "$RED$1$RESET" >&2
+}
+
+echowarn() {
+  echo -e "$YELLOW$1$RESET" >&2
 }
 
 quietly() {

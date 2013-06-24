@@ -15,7 +15,7 @@ EOB
 
   COMMAND=$1
 
-  for cmd in --help -h usage list restore uninstall use version --version help ; do
+  for cmd in --help -h usage add list restore uninstall use version --version help ; do
     if [ $cmd == "$1" ] ; then
       if [ "$1" == 'help' ] ; then
         help
@@ -42,6 +42,35 @@ help_usage() {
   Usage: mdf <usage | --help | -h>
 
   Displays list of available commands
+EOB
+}
+
+help_add() {
+  cat <<EOB
+
+  Usage: mdf add [options]
+
+  Adds a new profile to the list of available profiles. Use \`mdf list\` to see
+  all available profiles.
+
+  Options:
+  [--dir|-d]
+    Specifies a directory to be used as a profile.  The directory's contents
+    will be copied inside of the mdf profiles directory.  By default, the
+    directory's name will be used as the name of the profile.  This behavior
+    can be overridden by the '--name' option.  The selected name may not
+    overlap with the name of any existing profiles.
+  [--repo|-r]
+    Specifies a git repository to be used as a profile.  The repository's
+    contents will be cloned into the mdf profiles directory.  By default, the
+    repository's name will be used as the name of the profile.  This behavior
+    can be overridden by the '--name' option.  The selected name may not
+    overlap with the name of any existing profiles.
+  [--name|-n]
+    Specifies the name to be used for the profile being added.  This option
+    will override the default name for a profile added via a repository or
+    directory.  As with default names, a specified name canot overlap with the
+    name of any existing profiles.
 EOB
 }
 
