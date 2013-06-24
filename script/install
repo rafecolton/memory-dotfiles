@@ -36,16 +36,17 @@ function ensure_mdf_bin_path() {
 function main() {
   local var_path="${MDF_VAR_PATH:-/usr/local/var/mdf}"
   local bin_path="${MDF_BIN_PATH:-/usr/local/bin}"
-  local work_tree="${MDF_WORK_TREE:-$HOME}"
+  local work_tree="${MDF_WORK_TREE:-\$HOME}"
   local top="$(dirname $(dirname $0))"
   ensure_git
   ensure_mdf_bin_path
   cat <<EOB > "$bin_path/mdf"
 #!/usr/bin/env bash
 
-MDF_VAR_PATH=$var_path MDF_BIN_PATH=$bin_path MDF_WORK_TREE=$work_tree $var_path/mdf \$@
+MDF_VAR_PATH=$var_path MDF_BIN_PATH=$bin_path MDF_WORK_TREE=$work_tree $var_path/mdf "\$@"
 EOB
   chmod +x "$bin_path/mdf"
+  chmod -R 0777 "$var_path"
   mkdir -p "$var_path"
   for item in profiles lib mdf vendor ; do
     cp -r "$top/$item" "$var_path"
