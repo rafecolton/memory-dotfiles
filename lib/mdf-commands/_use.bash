@@ -34,7 +34,7 @@ use() {
   fi
 
   # copy profile contents into git work tree
-  rsync -aqz --safe-links "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE"
+  rsync -aqz --no-p --safe-links "$PROFILE_DIR/$profile/" "$GIT_WORK_TREE"
 
   # make sure the current user owns all dotfiles
   for file in $(ls -1A "$PROFILE_DIR/$profile/") ; do
