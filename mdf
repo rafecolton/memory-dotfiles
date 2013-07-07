@@ -42,7 +42,7 @@ COMMAND=$1
 shift
 
 if [ $COMMAND != 'uninstall' ] ; then
-  quietly "git_init_all"
+  quietly 'git_sentinel_commit'
 fi
 
 case $COMMAND in

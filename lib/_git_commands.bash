@@ -1,6 +1,6 @@
 GIT="git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE"
 
-git_init_all() {
+git_sentinel_commit() {
   mkdir -p "$GIT_DIR"
   mkdir -p "$GIT_REMOTE"
   git --git-dir="$GIT_REMOTE" init --bare -q
@@ -10,7 +10,7 @@ git_init_all() {
   eval "$GIT remote add backup $GIT_REMOTE"
   echo "$(date)" > "$GIT_WORK_TREE/.mdf"
   eval "$GIT add $GIT_WORK_TREE/.mdf"
-  eval "$GIT commit -q -m 'Initial commit'"
+  eval "$GIT commit -q -m 'sentinel commit'"
   eval "$GIT push -q -u backup master"
 }
 
