@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 function is_darwin() {
   uname | grep -i 'darwin' > /dev/null && [ $? -eq 0 ]
 }
