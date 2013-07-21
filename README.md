@@ -139,6 +139,8 @@ To run tests:
 - Add `unset $GEM_HOME` to `.bash_profile` (since I'm going with the `rbenv` approach)
 - Add insatlling of [`gvm`](https://github.com/moovweb/gvm) to `bootstrap.sh`
 - Add 'add' command (done but still needs tests)
+- Remove `.vimrc`, `.gvimrc`, and `.git-authors` files from default profile
+(they're causing more harm than good)
 
 **NOTE:** The testing strategy and output format were borrowed from 
 [modcloth-labs/mithril](https://github.com/modcloth-labs/mithril)
