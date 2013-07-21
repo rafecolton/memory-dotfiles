@@ -132,5 +132,13 @@ To run tests:
 ./run-tests
 ```
 
+## TODO
+
+- Add updating for installed repo as well as current dotfile set
+- Add 'remove' command for deleting dotfile sets
+- Add `unset $GEM_HOME` to `.bash_profile` (since I'm going with the `rbenv` approach)
+- Add insatlling of `[gvm](https://github.com/moovweb/gvm)` to `bootstrap.sh`
+- Add 'add' command (done but still needs tests)
+
 **NOTE:** The testing strategy and output format were borrowed from 
 [modcloth-labs/mithril](https://github.com/modcloth-labs/mithril)
