@@ -141,6 +141,7 @@ To run tests:
 - Add 'add' command (done but still needs tests)
 - Remove `.vimrc`, `.gvimrc`, and `.git-authors` files from default profile
 (they're causing more harm than good)
+- Make tests safer by with a fake home directory
 
 **NOTE:** The testing strategy and output format were borrowed from 
 [modcloth-labs/mithril](https://github.com/modcloth-labs/mithril)
