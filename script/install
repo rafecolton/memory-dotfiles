@@ -47,7 +47,10 @@ MDF_VAR_PATH=$var_path MDF_BIN_PATH=$bin_path MDF_WORK_TREE=$work_tree $var_path
 EOB
   chmod +x "$bin_path/mdf"
   mkdir -p "$var_path"
-  cp -r "$top/" "$var_path" 2>/dev/null
+  for item in profiles lib mdf vendor ; do
+    cp -r "$top/$item" "$var_path"
+  done
+  chmod -R 0777 "$var_path"
 }
 
 main "$@"
