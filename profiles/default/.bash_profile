@@ -97,6 +97,8 @@ if [ -d "$HOME/.rbenv" ]; then
   prepend_to_path "$HOME/.rbenv/shims"
 fi
 
+unset $GEM_HOME
+
 if [ -d "$HOME/.bash_profile.d" ] ; then
   for f in $(find "$HOME/.bash_profile.d" -type f -name '*.sh') ; do
     source "$f"
