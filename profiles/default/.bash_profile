@@ -2,17 +2,17 @@ source ~/.bashrc
 
 function grep-src { grep "$1" * -r --color=auto $2 $3 $4 --exclude=*\.log --exclude tags; }
 
-DARK_GREEN=$(echo -e "\033[32m")
-GOLD=$(echo -e "\033[33;1m")
-GREEN=$(echo -e "\033[32;1m")
-LIGHT_BLUE=$(echo -e "\[\033[1;34m\]")
-LIGHT_GRAY=$(echo -e "\[\033[0;37m\]")
-LIGHT_GREEN=$(echo -e "\[\033[1;32m\]")
-LIGHT_PINK=$(echo -e "\[\033[1;35m\]")
-PINK=$(echo -e "\[\033[0;35m\]")
-RED=$(echo -e "\033[31;1m")
-RESET=$(echo -e "\033[0m")
-YELLOW=$(echo -e "\[\033[0;33m\]")
+DARK_GREEN="\[\033[32m\]"
+GOLD="\[\033[33;1m\]"
+GREEN="\[\033[32;1m\]"
+LIGHT_BLUE="\[\033[1;34m\]"
+LIGHT_GRAY="\[\033[0;37m\]"
+LIGHT_GREEN="\[\033[1;32m\]"
+LIGHT_PINK="\[\033[1;35m\]"
+PINK="\[\033[0;35m\]"
+RED="\[\033[31;1m\]"
+RESET="\[\033[0m\]"
+YELLOW="\[\033[0;33m\]"
 
 if is_darwin ; then
   BREW_PREFIX=`brew --prefix`
