@@ -78,8 +78,8 @@ EOF
 eval "\$(rbenv init -)"
 EOF
   source ~/.bash_profile
-  rbenv install 1.9.3-p392
-  rbenv global 1.9.3-p392
+  rbenv install 2.0.0-rc2
+  rbenv global 2.0.0-rc2
 }
 
 _install_janus() {
