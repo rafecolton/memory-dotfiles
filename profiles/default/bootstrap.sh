@@ -19,11 +19,13 @@ function is_sunos() {
 
 _install_tmux() {
   if is_darwin ; then
-    if [ ! which brew ] ; then
+    if ! which brew ; then
       ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
     fi
-    brew install tmux
-    brew install reattach-to-user-namespace
+    if ! which tmux ; then
+      brew install tmux
+      brew install reattach-to-user-namespace
+    fi
   elif is_linux ; then
     # un-tested
     sudo apt-get install tmux
