@@ -2,6 +2,18 @@ source ~/.bashrc
 
 function grep-src { grep "$1" * -r --color=auto $2 $3 $4 --exclude=*\.log --exclude tags; }
 
+DARK_GREEN=$(echo -e "\033[32m")
+GOLD=$(echo -e "\033[33;1m")
+GREEN=$(echo -e "\033[32;1m")
+LIGHT_BLUE=$(echo -e "\[\033[1;34m\]")
+LIGHT_GRAY=$(echo -e "\[\033[0;37m\]")
+LIGHT_GREEN=$(echo -e "\[\033[1;32m\]")
+LIGHT_PINK=$(echo -e "\[\033[1;35m\]")
+PINK=$(echo -e "\[\033[0;35m\]")
+RED=$(echo -e "\033[31;1m")
+RESET=$(echo -e "\033[0m")
+YELLOW=$(echo -e "\[\033[0;33m\]")
+
 if is_darwin ; then
   BREW_PREFIX=`brew --prefix`
   alias ctags="$BREW_PREFIX/bin/ctags"
@@ -79,8 +91,6 @@ do
   fi
 done
 
-export PS1="\e[32m[\t]\e[0m \u@${NODENAME:=$HOSTNAME}\e[33m [\w]\e[0m \$(__git_ps1) \$(show_chef_env 2>/dev/null)\n> "
-
 if [ -d "$HOME/.rbenv" ]; then
   prepend_to_path "$HOME/.rbenv/bin"
   eval "$(rbenv init -)"
@@ -92,3 +102,14 @@ if [ -d "$HOME/.bash_profile.d" ] ; then
     source "$f"
   done
 fi
+
+source ~/.autoenv.activate.sh
+[[ -s "$HOME/.ssh/agent.out" ]] && source ~/.ssh/agent.out
+
+append_to_path '/usr/local/share/npm/bin'
+
+_pretty_prompt() {
+  echo "${GREEN}($(uname))${LIGHT_BLUE}::${YELLOW}[\w]${RESET}\n${RED}::${LIGHT_BLUE}\u${RESET}Ə${PINK}\H${RESET}${LIGHT_GREY}::${LIGHT_BLUE}$(org)${RESET}${LIGHT_GREY}::${GREEN}$(sdc_env 2>/dev/null)${LIGHT_GREY}$(__git_ps1)\n${RESET}> "
+}
+
+export PS1="$(_pretty_prompt)"
