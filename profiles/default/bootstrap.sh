@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+GOLD=$(echo -e "\033[33;1m")
+RESET=$(echo -e "\033[0m")
+GREEN=$(echo -e "\033[32;1m")
+RED=$(echo -e "\033[31;1m")
+
 function is_darwin() {
   uname | grep -i 'darwin' > /dev/null && [ $? -eq 0 ]
 }
@@ -40,7 +45,7 @@ _install_XVim(){
     else
       ln1='Successfully installed XVim. XVim adds vim-like key bindings to Xcode.'
       ln2='To remove XVim: rm -rf $HOME/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XVim.xcplugin'
-      echo -e "\033[33m$ln1\n$ln2\033[0m"
+      echo -e "${GOLD}$ln1\n$ln2${RESET}"
     fi
   fi
 }
@@ -97,6 +102,37 @@ _install_janus() {
   popd >/dev/null
 }
 
+_install_sdc_commands() {
+  if ! which npm ; then
+    is_linux && curl http://npmjs.org/install.sh | sudo sh
+    is_darwin && brew install npm
+  fi
+  source ~/.bash_profile
+  npm install -g jsontool
+  npm update -g jsontool
+  npm install -g smartdc
+  npm update -g smartdc
+}
+
+_install_gvm() {
+  bash < <(curl -s https://raw.github.com/moovweb/gvm/master/binscripts/gvm-installer)
+  [[ $? -ne 0 ]] && gvm update
+  source ~/.bash_profile
+  ! grep -q 'gvm' "$HOME/.bash_profile" && \
+    echo '[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"' \
+    >> ~/.bash_profile
+  gvm install go1.1.1
+  ! grep -q 'gvm use go1.1.1' "$HOME/.bash_profile" && \
+    echo 'gvm use go1.1.1 >/dev/null' >> ~/.bash_profile
+  source ~/.bash_profile
+}
+
+_install_golint() {
+  go get github.com/golang/lint/golint
+  vim_str="set rtp+=\$GOPATH/src/github.com/golang/lint/misc/vim"
+  ! grep "$vim_str" ~/.vimrc.after.local && echo "$vim_str" >> ~/.vimrc.after.local
+}
+
 script_path() {
   (cd "$(dirname $0)" && echo "$(pwd -P)/$(basename $0)")
 }
@@ -118,6 +154,9 @@ main() {
   _install_janus
   _install_tmux
   _install_XVim
+  _install_sdc_commands
+  _install_gvm
+  _install_golint
   source "$HOME/.bash_profile"
   delete_self_and_exit
 }
