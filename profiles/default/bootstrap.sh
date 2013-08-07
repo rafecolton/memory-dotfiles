@@ -115,16 +115,16 @@ _install_sdc_commands() {
 }
 
 _install_gvm() {
-  bash < <(curl -s https://raw.github.com/moovweb/gvm/master/binscripts/gvm-installer)
-  [[ $? -ne 0 ]] && gvm update
-  source ~/.bash_profile
+  bash < <(curl -s https://raw.github.com/moovweb/gvm/master/binscripts/gvm-installer) 2>/dev/null
   ! grep -q 'gvm' "$HOME/.bash_profile" && \
     echo '[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"' \
     >> ~/.bash_profile
-  gvm install go1.1.1
+  source ~/.bash_profile
+  gvm update
+  gvm install go1.1.1 2>/dev/null
   ! grep -q 'gvm use go1.1.1' "$HOME/.bash_profile" && \
     echo 'gvm use go1.1.1 >/dev/null' >> ~/.bash_profile
-  source ~/.bash_profile
+  gvm use go1.1.1
 }
 
 _install_golint() {
