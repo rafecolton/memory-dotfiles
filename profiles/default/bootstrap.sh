@@ -132,7 +132,9 @@ _install_gvm() {
 _install_golint() {
   go get github.com/golang/lint/golint
   vim_str="set rtp+=\$GOPATH/src/github.com/golang/lint/misc/vim"
+  vim_str2="autocmd BufWritePost,FileWritePost *.go execute 'Lint' | cwindow"
   ! grep "$vim_str" ~/.vimrc.after.local && echo "$vim_str" >> ~/.vimrc.after.local
+  ! grep "$vim_str2" ~/.vimrc.after.local && echo "$vim_str" >> ~/.vimrc.after.local
 }
 
 script_path() {
