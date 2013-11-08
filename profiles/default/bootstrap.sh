@@ -137,6 +137,18 @@ _install_golint() {
   ! grep "$vim_str2" ~/.vimrc.after.local && echo "$vim_str" >> ~/.vimrc.after.local
 }
 
+_install_docker_vim_syntax() {
+  for dir in ftdetect snippets syntax ; do 
+    mkdir -p "$HOME/.vim/$dir"
+  done
+
+  git clone https://github.com/ekalinin/Dockerfile.vim.git /tmp/Dockerfile.vim
+  pushd /tmp/Dockerfile.vim >/dev/null
+  make install
+  popd
+  rm -rf /tmp/Dockerfile.vim
+}
+
 script_path() {
   (cd "$(dirname $0)" && echo "$(pwd -P)/$(basename $0)")
 }
