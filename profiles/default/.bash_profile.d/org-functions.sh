@@ -3,7 +3,7 @@ function org() {
     export ORGNAME="$1"
   fi
 
-  [[ -e "$ORGNAME" ]] && echo "[$ORGNAME]"
+  [[ ! -z "$ORGNAME" ]] && echo "[$ORGNAME]"
 }
 
 alias orgname=org
