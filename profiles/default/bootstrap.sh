@@ -92,6 +92,7 @@ EOF
   is_linux && sudo $(which rbenv) install 2.0.0-p247
   is_darwin && rbenv install 2.0.0-p247
   rbenv global 2.0.0-p247
+  chown -R $(whoami):$(whoami) "$HOME/.rbenv"
 }
 
 _install_janus() {
